@@ -8,7 +8,11 @@ Implicit Grant is a simplified Authorisation code workflow. Here the client is i
 
 = Details =
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+ This implies that
+
+    No Authorisation Code is required by the Client to obtain Access tokens. They are issued directly on redirection, immediately after resource owner authentication.
+    Authorisation server does not Authenticate the Client
+    Access tokens issued are now visible to the user-agent. This can pose some security loops
+
+Because of the above three restrictions, this type authorisation grant workflow is optimised for Clients that are implemented in the Browser
+s
