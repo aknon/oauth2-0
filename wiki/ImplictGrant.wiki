@@ -1,5 +1,4 @@
 #labels Implicit,Grant,OAuth2.0grants
-#Summary
 An Authorisation Grant is the credetial representation the Resource Owner's authorisation of the Client's access to its protected resources
 
 = Introduction =
