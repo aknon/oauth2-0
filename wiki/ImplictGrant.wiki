@@ -1,0 +1,14 @@
+#labels Implicit,Grant,OAuth2.0grants
+An Authorisation Grant is the credetial representation the Resource Owner's authorisation of the Client's access to its protected resources
+
+= Introduction =
+
+Implicit Grant is a simplified Authorisation code workflow. Here the client is issued the Access tokens, just after the Resources owner's authentication. The access token is thus returned, when the user-agent is redirected to the Client
+
+
+= Details =
+
+Add your content here.  Format your content with:
+  * Text in *bold* or _italic_
+  * Headings, paragraphs, and lists
+  * Automatic links to other wiki pages
