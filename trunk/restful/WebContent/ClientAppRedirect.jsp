@@ -19,16 +19,17 @@
 <div align="center">
 <img src="/restful/images/redirect.jpg" alt="Great Work" width="304" height="228">
 <br><br>
-<b>Redirected EnPoint on the ClienApp</b>
+<font size="4" face="verdana" color="blue"><b>Redirected EndPoint on the Client App</b></font>
 <br><br>
 </div>
 
 	
 <% if ( request.getParameter("error") != null ) { %>
 <div align="center">
-<b>Access Denied or Error Accessing App</b> 
-<br>Reason For Error : <b><i><%= request.getParameter("error_description") %></i></b>
-<br><br><a href="http://restful-fundamentals.blogspot.in/2013/04/oauth-20-introducation.html">See my Complete Tutotial For OAuth 2.0</a>
+<font size="5" face="verdana" color="red"><b>Access Denied or Error Accessing App</b></font>
+<br>
+<font size="2" face="verdana" color="blue"><br>Reason For Error : <b><i><%= request.getParameter("error_description") %></i></b></font>
+<br><br><br><a href="http://restful-fundamentals.blogspot.in/2013/04/oauth-20-introducation.html">See my Complete Tutotial For OAuth 2.0</a>
 <br>Thank You
 </div>
 <% } else  { %>
@@ -38,14 +39,15 @@
 <form name="access_app" action="/restful/clientapp" method="POST">
 <div align="center">
 <br><br>
-<b>Click on the Button to access the app. This html page<br>has a javascript which shall carry the access token along</b>
-<br><br><i>Access_token accessed by this page:</i><b><script type="text/javascript">document.write(get_access_token());</script></b>
+<font size="2" face="verdana" color="blue"><b>Click on the Button to access the app<br>This html page has embedded javascript which shall carry the access token along</b></font>
+<br><br>
+<font size="2" face="verdana" color="black"><i>Access_token accessed by this page: </i><b><script type="text/javascript">document.write(get_access_token());</script></b></font>
 <br><br><input type="submit" value="Access My App" >
-<br><input type="hidden" id="client_id" name="client_id" value="" >
-<br><input type="hidden" id="state" name="state" value="" >
-<br><input type="hidden" id="access_token" name="access_token" value="" >
+<input type="hidden" id="client_id" name="client_id" value="" >
+<input type="hidden" id="state" name="state" value="" >
+<input type="hidden" id="access_token" name="access_token" value="" >
 
-<br><br><a href="http://restful-fundamentals.blogspot.in/2013/04/oauth-20-introducation.html">See my Complete Tutotial For OAuth 2.0</a>
+<br><br><a target="_blank" href="http://restful-fundamentals.blogspot.in/2013/04/oauth-20-introducation.html">See my Complete Tutotial For OAuth 2.0</a>
 <br>Thank You
 
 </div>

@@ -8,7 +8,15 @@ public class AuthParams {
 	private String state;
 	private String accessToken;
 	private long issueTime;
+	private String scope;
 	
+	public String getScope() {
+		return scope;
+	}
+
+	public void setScope(String scope) {
+		this.scope = scope;
+	}
 	private int errorcode;
 	
 	private String errorMessage;

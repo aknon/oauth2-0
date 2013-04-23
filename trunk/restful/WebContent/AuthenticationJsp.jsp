@@ -16,18 +16,21 @@
 <body>
 
 <div align="center">
+<br><br>
 <img src="/restful/images/authenticate.jpg" alt="Great Work" width="304" height="228">
 <br><br>
-<b><%= request.getAttribute("client_name") %> would like to Access Some of protected Resource</b>
-<br>Enter your Credentials to and click 'Allow Access' to <b>Allow Access</b> or Click 'Deny' to <b>Deny Access</b>
+<font size="4" face="verdana" color="purple"><b><%= request.getAttribute("client_name") %> </b> </font><font size="3" face="verdana" color="green"><b>would like to Access Some of protected Resource</b></font>
+<br><font size="3" face="verdana" color="blue"><b>Your Resources that will be Accessed :</b></font><font size="4" face="verdana" color="purple"> <b><i> <%= request.getAttribute("scope") %> </i></b></font>
+<br><br>
+<font size="2" face="verdana" color="black">Enter your Credentials and click 'Allow Access' to <b>Allow Access</b> or Click 'Deny' to <b>Deny Access</b></font>
 <br><br>
 </div>
 
 <form name="authenticate_app" action="/restful/oauthlogin" method="POST">
 <div align="center">
-<br><br>
-Username/Email: <input type="text" name="user_name"><br>
-Password: <input type="text" name="password">
+<br>
+<font size="2" face="verdana" color="black">Username/Email: </font><input type="text" name="user_name"><br>
+<font size="2" face="verdana" color="black">Password: </font><input type="text" name="password">
 <br><input type="hidden" id="login" name="login" value="login" >
 
 <br><br>
@@ -37,14 +40,14 @@ Password: <input type="text" name="password">
 <input type="submit" value="Deny" onclick="javascriopt:submitThis(this)"/>
 </li>
 </ul>
-<br><input type="hidden" id="request_id" name="request_id" value="" >
-<br><input type="hidden" id="scope" name="scope" value="" >
-<br><input type="hidden" id="access_allowed" name="access_allowed" value="" >
+<input type="hidden" id="request_id" name="request_id" value="" >
+<input type="hidden" id="scope" name="scope" value="" >
+<input type="hidden" id="access_allowed" name="access_allowed" value="" >
 </div>
 </form>
 
 <div align="center">
-<br><br><a href="http://restful-fundamentals.blogspot.in/2013/04/oauth-20-introducation.html">See my Complete Tutotial For OAuth 2.0</a>
+<br><br><a target="_blank" href="http://restful-fundamentals.blogspot.in/2013/04/oauth-20-introducation.html">See my Complete Tutotial For OAuth 2.0</a>
 <br>Thank You
 </div>
 

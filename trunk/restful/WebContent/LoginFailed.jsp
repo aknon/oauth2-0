@@ -12,11 +12,11 @@
 <body>
 
 <div align="center">
-<img src="/restful/images/unauth.jpg" alt="Access Denied to this App" width="304" height="228">
+<br><br><img src="/restful/images/unauth.jpg" alt="Access Denied to this App" width="304" height="228">
 <br><br>
 <b>Access Denied</b>
 <br><br><b>Reason for Denial : <i><%= request.getAttribute("error_message") %></i></b>
-<br><br><a href="http://restful-fundamentals.blogspot.in/2013/04/oauth-20-introducation.html">See my Complete Tutotial For OAuth 2.0</a>
+<br><br><a target="_blank" href="http://restful-fundamentals.blogspot.in/2013/04/oauth-20-introducation.html">See my Complete Tutotial For OAuth 2.0</a>
 <br>Thank You
 </div>
 </body>
