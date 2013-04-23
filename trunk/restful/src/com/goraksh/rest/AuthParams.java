@@ -2,7 +2,9 @@ package com.goraksh.rest;
 
 public class AuthParams {
 	
+	private boolean cancel;
 	private String clientId;
+	private String clientName;
 	private String state;
 	private String accessToken;
 	private long issueTime;
@@ -11,6 +13,19 @@ public class AuthParams {
 	
 	private String errorMessage;
 		
+	public void cancel() {
+		this.cancel = true;
+	}
+	
+	public boolean isCancelled() {
+		return cancel;
+	}
+	public String getClientName() {
+		return clientName;
+	}
+	public void setClientName(String clientName) {
+		this.clientName = clientName;
+	}
 	public int getErrorcode() {
 		return errorcode;
 	}
@@ -28,6 +43,9 @@ public class AuthParams {
 	}
 	public long getIssueTime() {
 		return issueTime;
+	}
+	public void refreshIssueTime() {
+		issueTime = System.currentTimeMillis();
 	}
 	public String getClientId() {
 		return clientId;

@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.InetAddress;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -94,6 +95,9 @@ public class ProjectClient {
 	 * @throws Exception
 	 */
   public static void main(String[] args) throws Exception {
+	  InetAddress localhost = InetAddress.getLocalHost();
+	  System.out.println(localhost.getHostAddress() );
+	  
 	  String user = "cb-1-zip.dfgdf.zip";
 	  System.out.println( getZipFileName( user, "default" ) );
 	  getString( getByteArrayFromInputStream( getInput("D:\\svn_tree\\testfile.txt" )) );

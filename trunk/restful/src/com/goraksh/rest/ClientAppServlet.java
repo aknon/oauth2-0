@@ -47,8 +47,10 @@ public class ClientAppServlet extends HttpServlet {
 				request.getRequestDispatcher("/clientappview").forward(request,
 					response);
 		}
-		else
+		else {
+			ErrorManger.cancelToken(auth);
 			handleError(request, response, auth);
+		}
 	}
 
 	private boolean match(String reqId, String storedId) {
@@ -74,7 +76,7 @@ public class ClientAppServlet extends HttpServlet {
 	
 	
 	private boolean hasError( AuthParams params ) {
-		return params.getErrorcode() > 0;
+		return  ErrorManger.hasError(params);
 	}
 
 	private void handleError(HttpServletRequest request,
