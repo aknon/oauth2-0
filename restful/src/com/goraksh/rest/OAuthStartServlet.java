@@ -23,13 +23,18 @@ public class OAuthStartServlet extends HttpServlet {
 	   
 		System.out.println( "Into OAuth Start Servlet. Will Create Authoration End Point for Session Id :" + request.getSession().getId());
 		System.out.println("Host name:" + request.getServerName());
-		AuthParams auth = Store.createWithoutAccessToken( request.getSession().getId() );
 		
 		String scheme = "http"; // should be https
 		String ipaddress = InetAddress.getLocalHost().getHostAddress();
 		String port = "8080";
 		String scope = "HurrayPhotos";
 		
+		
+		
+		AuthParams auth = Store.createWithoutAccessToken( request.getSession().getId() );
+		auth.setScope( scope );
+		
+	
 		StringBuilder sb = new StringBuilder( scheme + "://" + ipaddress + ":" + port  + "/restful/authendpoint?" );
 		
 		sb.append( "response_type=token").append("&client_id=").append(auth.getClientId())
@@ -42,7 +47,10 @@ public class OAuthStartServlet extends HttpServlet {
 		String authEndPoint = sb.toString();
 		
 		System.out.println("Starting MyApp. Setting Authorisation End Point as : " + authEndPoint);
+		
+		
 		request.setAttribute("authorisation_uri",  authEndPoint);
+		request.setAttribute("scope",  scope);
 		
 		
 		getServletContext().getRequestDispatcher("/games").forward(request, response);  

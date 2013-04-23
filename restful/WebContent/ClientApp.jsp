@@ -18,15 +18,19 @@
 <div align="center">
 <img src="/restful/images/hurray.jpg" alt="Great Work" width="304" height="228">
 <br><br>
-<b>HURRAY ! You have accessed this Client App using Implicit Grant FLow</b>
+<font size="5" face="verdana" color="orange"><b>HURRAY ! </b></font><font size="3" face="verdana" color="green"><b>You have accessed this Client App using </b></font>
+<font size="4" face="verdana" color="green"><b><i>Implicit Grant FLow</i></b></font>
+<br>
+<font size="3" face="verdana" color="purple"><b>Your Resources Accessed: </b></font><font size="4" face="verdana" color="purple"><b><i><%= request.getAttribute("scope") %></i></b></font>
 <br><br>
 </div>
 
 <form name="access_app" action="/restful/clientapp" method="POST">
 <div align="center">
 <br><br>
-<b>Click on the Button to access the app. This html page<br>has a javascript which shall carry the access token along</b>
-<br><br><i>Access_token accessed by this page:</i><b><script type="text/javascript">document.write(get_access_token());</script></b>
+<font size="2" face="verdana" color="blue"><b>Click on the Button to access the app<br>This html page has embedded javascript which shall carry the access token along</b></font>
+<br><br>
+<font size="2" face="verdana" color="black"><i>Access_token accessed by this page: </i><b><script type="text/javascript">document.write(get_access_token());</script></b></font>
 <br><br><input type="submit" value="Going further" >
 <br><input type="hidden" id="client_id" name="client_id" value="" >
 <br><input type="hidden" id="state" name="state" value="" >
@@ -36,7 +40,7 @@
 </form>
 
 <div align="center">
-<br><br><a href="http://restful-fundamentals.blogspot.in/2013/04/oauth-20-introducation.html">See my Complete Tutotial For OAuth 2.0</a>
+<br><br><a target="_blank" href="http://restful-fundamentals.blogspot.in/2013/04/oauth-20-introducation.html">See my Complete Tutotial For OAuth 2.0</a>
 <br>Thank You
 </div>
 

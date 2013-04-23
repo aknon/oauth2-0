@@ -43,6 +43,7 @@ public class ClientAppServlet extends HttpServlet {
 					+ " :: Access Token in store :" + auth.getAccessToken());
 		}
 
+		request.setAttribute("scope", auth.getScope());
 		if (match) {
 				request.getRequestDispatcher("/clientappview").forward(request,
 					response);

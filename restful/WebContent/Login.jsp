@@ -16,7 +16,7 @@
 <body>
 
 <div align="center">
-<img src="/restful/images/authenticate.jpg" alt="Great Work" width="304" height="228">
+<br><br><img src="/restful/images/authenticate.jpg" alt="Great Work" width="304" height="228">
 <br><br>
 <b>Authenticate Yourself with the Authentication Server. Your account Credentials for the Client App required</b>
 <br><br>
@@ -33,7 +33,7 @@ Password: <input type="text" name="password">
 </form>
 
 <div align="center">
-<br><br><a href="http://restful-fundamentals.blogspot.in/2013/04/oauth-20-introducation.html">See my Complete Tutotial For OAuth 2.0</a>
+<br><br><a target="_blank" href="http://restful-fundamentals.blogspot.in/2013/04/oauth-20-introducation.html">See my Complete Tutotial For OAuth 2.0</a>
 <br>Thank You
 </div>
 

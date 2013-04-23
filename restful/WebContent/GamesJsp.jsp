@@ -13,10 +13,18 @@
 
 <div align="center">
 <br><br>
-<a href='<%= request.getAttribute("authorisation_uri") %>' ><img src="/restful/images/bond.jpg" alt="Great Work" width="304" height="228" /></a>
+<font size="4" face="verdana" color="gray"><b>Demonstration for the OAuth 2.0 Protocol Flow, including Implicit Grant Flow</b></font>
+<br><br><br><br>
+<a href='<%= request.getAttribute("authorisation_uri") %>' ><img src="/restful/images/myapp.jpg" alt="Great Work" width="304" height="228" /></a>
 <br><br>
-<b>Games Jsp. This is my App as displayed on my SmartPhone</b>
-<br><br><b>This App shall access my  'Hurray' pic</b>
+<font size="3" face="verdana" color="blue"><b>This is my App as displayed on my SmartPhone</b>
+<br>
+<font size="3" face="verdana" color="green"><b>This App shall access my  protected resource </b></font>
+<a href='<%= request.getAttribute("authorisation_uri") %>' ><font size="3" face="verdana" color="purple"><b><i><%= request.getAttribute("scope") %></i></b></font></a>
+</font>
+
+<br><br><br><a target="_blank" href="http://restful-fundamentals.blogspot.in/2013/04/oauth-20-introducation.html">See my Complete Tutotial For OAuth 2.0</a>
+<br>Thank You
 </div>
 
 </body>
