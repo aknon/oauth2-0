@@ -29,6 +29,10 @@ function get_query(urlStr) {
 // returns Url Fragment
 function get_urlfragment(urlStr) {
 	var hashIndex = urlStr.indexOf("#", 0 );
+	if ( hashIndex == -1)
+		{
+		return null;
+		}
 	var urlFragment = urlStr.substring(hashIndex+1, urlStr.length);
 	return urlFragment;
 }
@@ -36,6 +40,9 @@ function get_urlfragment(urlStr) {
 // Returns Url String without the Url Fragment
 function get_url(urlStr) {
 	var hashIndex = urlStr.indexOf("#", 0 );
+	if ( hashIndex == -1) {
+		return urlStr;
+	}
 	var originalUrl = urlStr.substring(0,  hashIndex);
 	return originalUrl;
 }

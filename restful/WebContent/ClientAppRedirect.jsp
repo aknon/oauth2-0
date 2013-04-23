@@ -22,7 +22,18 @@
 <b>Redirected EnPoint on the ClienApp</b>
 <br><br>
 </div>
+
 	
+<% if ( request.getParameter("error") != null ) { %>
+<div align="center">
+<b>Access Denied or Error Accessing App</b> 
+<br>Reason For Error : <b><i><%= request.getParameter("error_description") %></i></b>
+<br><br><a href="http://restful-fundamentals.blogspot.in/2013/04/oauth-20-introducation.html">See my Complete Tutotial For OAuth 2.0</a>
+<br>Thank You
+</div>
+<% } else  { %>
+
+
 
 <form name="access_app" action="/restful/clientapp" method="POST">
 <div align="center">
@@ -39,6 +50,8 @@
 
 </div>
 </form>
+
+<% } %>
 
 <script>
 //document.write( "hi ");

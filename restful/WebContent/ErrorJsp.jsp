@@ -14,7 +14,10 @@
 <div align="center">
 <img src="/restful/images/access_denied.jpg" alt="Access Denied to this App" width="304" height="228">
 <br><br>
-<b>Access Denied</b> for Access Token: <b><i><%= request.getAttribute("access_token") %></i></b>
+<b>Access Denied</b> 
+<% if ( request.getAttribute("access_token") != null ) { %>
+for Access Token: <b><i><%= request.getAttribute("access_token") %></i></b>
+<% } %>
 <br><br><b>Reason for Denial : <i><%= request.getAttribute("error_message") %></i></b>
 <br><br><a href="http://restful-fundamentals.blogspot.in/2013/04/oauth-20-introducation.html">See my Complete Tutotial For OAuth 2.0</a>
 <br>Thank You

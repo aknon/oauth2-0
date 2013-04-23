@@ -1,0 +1,83 @@
+package com.goraksh.rest;
+
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.URLClassLoader;
+import java.net.URLEncoder;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+public class OAuthStartServlet extends HttpServlet {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1473961001930308879L;
+
+	public void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws IOException, ServletException {
+		
+	   
+		System.out.println( "Into OAuth Start Servlet. Will Create Authoration End Point for Session Id :" + request.getSession().getId());
+		System.out.println("Host name:" + request.getServerName());
+		AuthParams auth = Store.createWithoutAccessToken( request.getSession().getId() );
+		
+		String scheme = "http"; // should be https
+		String ipaddress = InetAddress.getLocalHost().getHostAddress();
+		String port = "8080";
+		String scope = "HurrayPhotos";
+		
+		StringBuilder sb = new StringBuilder( scheme + "://" + ipaddress + ":" + port  + "/restful/authendpoint?" );
+		
+		sb.append( "response_type=token").append("&client_id=").append(auth.getClientId())
+		.append("&scope=").append( scope)
+		.append("&state=").append( auth.getState());
+		
+		String redirectUri = getAuthEndPoint(request, scheme, ipaddress, port);
+		sb.append( "&redirect_uri=").append( URLEncoder.encode(redirectUri ));
+		
+		String authEndPoint = sb.toString();
+		
+		System.out.println("Starting MyApp. Setting Authorisation End Point as : " + authEndPoint);
+		request.setAttribute("authorisation_uri",  authEndPoint);
+		
+		
+		getServletContext().getRequestDispatcher("/games").forward(request, response);  
+		
+			}
+	
+	private String getAuthEndPoint( HttpServletRequest request, String scheme, String servername, String port ) {
+		AuthParams auth = Store.get( request.getSession().getId() );
+		String redirectUrl = scheme + "://" + servername + ":" + request.getServerPort()  +
+				"/restful/redirect";
+		return redirectUrl;
+	}
+	
+	private boolean loginRequest( HttpServletRequest request, HttpServletResponse response ) {
+		return "login".equals(request.getParameter("login") );
+	}
+	
+	public void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws IOException, ServletException {
+		doGet(request, response);
+	}
+	
+	private void handleError(HttpServletRequest request,
+			HttpServletResponse response) throws IOException, ServletException {
+	
+		System.out.println("Authorisation Servlet forwarding to /loginfailedjsp");
+		request.getRequestDispatcher("/loginfailedjsp").forward(request,  response);
+		
+	}
+	
+	private boolean loginFailed(HttpServletRequest request,
+			HttpServletResponse response) {
+		boolean loginFailed =  request.getAttribute("error_message")!= null;
+		if ( loginFailed )
+			System.out.println("Authorisation Server verified that login has filed at Resource server");
+		return loginFailed;
+	}
+}

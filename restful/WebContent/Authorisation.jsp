@@ -19,25 +19,31 @@
 document.write("Funy Jsp ! <br>");
 
 //var urlStr = "http://restful-fundamentals.blogspot.in/2013/04/oauth-20-authorisation-grant-different.html?client_id=client123&state=clientstate&url=aljghaljg?a=b#access_token=aaga";
-var urlStr = '<%= request.getAttribute("redirect_url") %>';
+var urlStr = '<%= request.getAttribute("redirect_uri") %>';
 	//var urlStr = window.location.href;
 
 
 document.write(urlStr);
 document.write(location.host);
 
+var host = get_host();
+document.write( "<br> Host :" + host );
 
 var queryStr = get_query(urlStr);
 var queryParams = get_queryMap(queryStr);
 
 
 
-var urlFragment = get_urlfragment(urlStr);
-var fragment = get_fragmentMap(urlFragment);
 
-var host = get_host();
-document.write( "<br> Host :" + host );
+var urlFragment = get_urlfragment(urlStr);
+if ( urlFragment ) {
+var fragment = get_fragmentMap(urlFragment);
 set_cookie("access_token", fragment["access_token"], 1, host);
+}
+
+
+
+
 set_cookie("client_id", queryParams["client_id"], 1, host);
 set_cookie("state", queryParams["state"], 1, host);
 
