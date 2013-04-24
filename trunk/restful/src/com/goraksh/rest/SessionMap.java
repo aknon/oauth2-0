@@ -2,6 +2,11 @@ package com.goraksh.rest;
 
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * 
+ * @author niteshk
+ *
+ */
 public class SessionMap {
 
 	private ConcurrentHashMap<String, Object> store;

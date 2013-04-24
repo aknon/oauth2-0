@@ -10,6 +10,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * 
+ * @author niteshk
+ *
+ */
 public class OAuthStartServlet extends HttpServlet {
 
 	/**
@@ -25,14 +30,16 @@ public class OAuthStartServlet extends HttpServlet {
 		System.out.println("Host name:" + request.getServerName());
 		
 		String scheme = "http"; // should be https
-		String ipaddress = InetAddress.getLocalHost().getHostAddress();
-		String port = "8080";
+		String ipaddress = request.getServerName();//InetAddress.getLocalHost().getHostAddress();
+		String port = String.valueOf(request.getServerPort() );//"8080";
 		String scope = "HurrayPhotos";
 		
 		
 		
 		AuthParams auth = Store.createWithoutAccessToken( request.getSession().getId() );
 		auth.setScope( scope );
+		
+		System.out.println("Created Auth Params without Access Tokens: " + auth.toString());
 		
 	
 		StringBuilder sb = new StringBuilder( scheme + "://" + ipaddress + ":" + port  + "/restful/authendpoint?" );

@@ -23,6 +23,8 @@
 <a href='<%= request.getAttribute("authorisation_uri") %>' ><font size="3" face="verdana" color="purple"><b><i><%= request.getAttribute("scope") %></i></b></font></a>
 </font>
 
+<br><br><font size="3" face="verdana" color="brown"><b>Clicking on the Above Icon will take me to the <i>'Authorisation End Point'</i></b></font>
+
 <br><br><br><a target="_blank" href="http://restful-fundamentals.blogspot.in/2013/04/oauth-20-introducation.html">See my Complete Tutotial For OAuth 2.0</a>
 <br>Thank You
 </div>

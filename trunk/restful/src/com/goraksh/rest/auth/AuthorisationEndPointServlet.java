@@ -18,6 +18,11 @@ import com.goraksh.rest.ErrorManger;
 import com.goraksh.rest.SessionMap;
 import com.goraksh.rest.Store;
 
+/**
+ * 
+ * @author niteshk
+ *
+ */
 public class AuthorisationEndPointServlet extends HttpServlet {
 
 	/**
@@ -35,6 +40,8 @@ public class AuthorisationEndPointServlet extends HttpServlet {
 		System.out.println("Host name:" + request.getServerName());
 
 		AuthParams auth = Store.get(sessionId);
+		
+		System.out.println("Fetching Auth from Store: " + auth.toString());
 
 		boolean match = false;
 

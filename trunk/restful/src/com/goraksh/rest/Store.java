@@ -2,6 +2,11 @@ package com.goraksh.rest;
 
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * 
+ * @author niteshk
+ *
+ */
 public class Store {
 
 	private static String CLIENT_ID;
@@ -46,8 +51,7 @@ public class Store {
 	 * @return
 	 */
 	public static AuthParams get(String sessionId) {
-		System.out.println("Loooking for Access Tokens and ClientId in Store for Session Id:" + sessionId + " .Length :"
-				+ sessionId.length());
+		System.out.println("Loooking for Access Tokens and ClientId in Store for Session Id:" + sessionId );
 		
 		return store.get(sessionId);
 	}

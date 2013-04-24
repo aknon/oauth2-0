@@ -28,9 +28,9 @@
 <form name="access_app" action="/restful/clientapp" method="POST">
 <div align="center">
 <br><br>
-<font size="2" face="verdana" color="blue"><b>Click on the Button to access the app<br>This html page has embedded javascript which shall carry the access token along</b></font>
+<font size="3" face="verdana" color="blue"><b>Click on the Button to access the app<br>This html page has embedded javascript which shall carry the access token along</b></font>
 <br><br>
-<font size="2" face="verdana" color="black"><i>Access_token accessed by this page: </i><b><script type="text/javascript">document.write(get_access_token());</script></b></font>
+<font size="2" face="verdana" color="black"><b><i>Access_token accessed by this page: </i></b><b><script type="text/javascript">document.write(get_access_token());</script></b></font>
 <br><br><input type="submit" value="Going further" >
 <br><input type="hidden" id="client_id" name="client_id" value="" >
 <br><input type="hidden" id="state" name="state" value="" >

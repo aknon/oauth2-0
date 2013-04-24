@@ -1,5 +1,10 @@
 package com.goraksh.rest;
 
+/**
+ * 
+ * @author niteshk
+ *
+ */
 public class ErrorManger {
 	
 	private static long EXPIRY_IN_SECS = 10l;

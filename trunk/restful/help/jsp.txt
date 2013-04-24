@@ -1,0 +1,80 @@
+jsp-help
+
+
+########### request forward ##############
+reqquest diapather uses relative path avoiding the app name
+
+like app-->ressource
+
+at resource say "r1"
+this resource forwards to "r2"
+then 	request.getRequestDispatcher("/r2").forward(request,  response) will ,
+
+BUT 	request.getRequestDispatcher("/app/r2").forward(request,  response) 	will NOT WORK
+
+###### request redirect #####################
+This needs a URI from the app name. Since it is inteperted by the browser which computes realtive urls from the domain name., not the app name
+
+App name is used only internally by the servers. So all enteries in the web.sml assume HOME = domain/app
+
+where as browsers assume HOME = domain
+
+So for Redirects
+
+say resource say "r1"
+this resource redirects to "r2"
+then 	request.sendRedirect("/r2) will NOT WORK,
+
+BUT 	request.sendRedirect("/app/r2") will work
+
+######## For Relative Urls in the Images and Scritps tag ###################
+Follow the same principle as that of Request Redirect
+
+Use relative URI from the app name , not the ones given in the web.xml.
+
+Like path of script is /app/scripts/a.js
+
+then the Script tag must have src="/app/scripts/a.js". This will work
+
+but src="/srcipts/a.js" will NOT WORK
+
+Same is true for images
+
+#############
+
+<%= %>
+is same as respone.print()
+
+##### cannot forward twice ######
+
+	public void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws IOException, ServletException {
+		
+		
+		getServletContext().getRequestDispatcher("/loginapp").forward(request, response); 
+		
+		if ( loginFailed(request, response)) {
+			getServletContext().getRequestDispatcher("/errorapp").forward(request, response)
+		return;
+		}
+
+
+** getServletContext().getRequestDispatcher("/errorapp").forward(request, response) --fails . Cannot forward once the response is committed
+
+############ Weired Ness with Chrmoe ######
+
+it does not store cokies for localhost:
+so url : http://localhost:8080/restful/clientapp
+has a script that does : docuemn.cookie = "new cookie"
+
+This does no work. IT works with Chrome though
+
+Hhoweever when the Url's localhost is replaced with actual ip address ie.
+url : http://10.10.61.111:8080/restful/clientapp
+
+the page is able to set cookies, in chrome. Obviosly it does in firefox too !!
+
+Seems chrome does it intentionally ;
+http://stackoverflow.com/questions/13801181/chrome-cannot-set-cookie-without-server
+http://stackoverflow.com/questions/8105135/cannot-set-cookies-in-javascript
+
