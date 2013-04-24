@@ -16,9 +16,9 @@
 <br><br>
 <font size="5" face="verdana" color="red"><b>Access Denied</b> 
 <% if ( request.getAttribute("access_token") != null ) { %>
-for Access Token: <b><i><%= request.getAttribute("access_token") %></i></b>
+for Access Token: </font><font size="3" face="verdana" color="red"><b><i><%= request.getAttribute("access_token") %></i></b></font>
 <% } %>
-</font>
+
 <br><br>
 <font size="3" face="verdana" color="blue"><b>Reason for Denial : </b></font><font size="3" face="verdana" color="red"><b><i><%= request.getAttribute("error_message") %></i></b></font>
 <br><br><a target="_blank" href="http://restful-fundamentals.blogspot.in/2013/04/oauth-20-introducation.html">See my Complete Tutotial For OAuth 2.0</a>

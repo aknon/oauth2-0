@@ -23,7 +23,7 @@
 <br><br>
 
 <br><br>
-<font size="4" face="verdana" color="purple"><b><%= request.getAttribute("client_name") %> </b> </font><font size="3" face="verdana" color="green"><b>would like to Access Some of protected Resource</b></font>
+<font size="4" face="verdana" color="purple"><b><%= request.getAttribute("client_name") %> </b> </font><font size="3" face="verdana" color="green"><b>would like to Access Some of your protected Resources</b></font>
 <br><font size="3" face="verdana" color="blue"><b>Your Resources that will be Accessed :</b></font><font size="4" face="verdana" color="purple"> <b><i> <%= request.getAttribute("scope") %> </i></b></font>
 <br><br>
 <font size="3" face="verdana" color="black">Enter your Credentials and click 'Allow Access' to <b>Allow Access</b> or Click 'Deny' to <b>Deny Access</b></font>
