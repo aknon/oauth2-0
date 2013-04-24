@@ -1,6 +1,11 @@
 package com.goraksh.rest;
 import java.util.Random;
 
+/**
+ * 
+ * @author niteshk
+ *
+ */
 public class RandomString
 {
 

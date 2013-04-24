@@ -1,5 +1,10 @@
 package com.goraksh.rest;
 
+/**
+ * 
+ * @author niteshk
+ *
+ */
 public class AuthParams {
 	
 	private boolean cancel;
@@ -9,6 +14,15 @@ public class AuthParams {
 	private String accessToken;
 	private long issueTime;
 	private String scope;
+	
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append( "Client Id: ").append( clientId )
+		.append( ", Client Name: ").append( clientName)
+		.append(", Access Token: ").append( accessToken != null ? accessToken : "")
+		.append(", Issue Time: ").append( issueTime );
+		return sb.toString();
+	}
 	
 	public String getScope() {
 		return scope;

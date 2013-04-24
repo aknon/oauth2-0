@@ -1,0 +1,183 @@
+Rest - RPC and Hateos
+
+http://blog.perfectapi.com/2012/opinionated-rpc-apis-vs-restful-apis/
+
+
+
+Nice points of differentiations :
+http://www.emergentone.com/blog/api-types-rest-vs-rpc/
+
+RPC APIs often:
+
+    Use POST exclusively
+    Require a ‘method’ parameter in the query string (i.e. http://rpcapi.example.com/books?method=list)
+    Contain a verb as part of their URLs (i.e. http://rpcapi.example.com/books/1/delete)
+    Use one or only very few URLs (i.e. a SOAP WSDL: http://rpcapi.example.com/api.wsdl)
+    Only return a “200 OK” response code, and use the document body to describe errors
+    Describe metadata about a request or response in the body or query string
+
+REST APIs often:
+
+    Use the full range of HTTP methods (GET, POST, DELETE, etc)
+    Only use query strings to alter the scope of information being requested (i.e. for pagination: http://restapi.example.com/books?offset=2)
+    Only contain nouns as part of their URLs (i.e. http://restapi.example.com/books/2/author)
+    Use a wide array of URLs to identify each piece of information separately
+    Use the full spectrum of HTTP response codes http://en.wikipedia.org/wiki/List_of_HTTP_status_codes to describe errors
+    Describe metadata about a request or response using HTTP headers where possible
+
+
+Another point that is missed out is Cache. RPC are not able to cache.
+
+So the main thing is : RPC uses HTTP but does not leverage the power of HTTP.
+REST leverages complete power of HTTP
+
+So that means the REST is perfect ?
+
+Ah ! such a non-sense. I see tremendous confusion in the market , forget about the implementation, even in the discussions and blogs. 
+There is a misunderstanding. Some common ones are that is a CRUD operation caried over HTTP ? 
+Some say the cache is the only benefit it has over HTTP ?
+Some confuse HATEOS with REST ?
+Some advocate multiple URLS to the same resource, ie URL overloading ?
+
+
+What I think is the major problem is :
+a) Rest relates directly to HTTP and hence it relates directly to the way internet was designed way back in early 1990's. THere has been a clear Aim 
+of Tim berner Lee and later Fieldings in designing web architecture, that give birth to HTTP and which then give birth to REST ?
+
+b.) They used the word 'resource' as some sort of an entity as something that a client needs to access from the server. Early HTTP version v0.9 made by Tim suported just GET.So clearly Resources were nothing but static web pages
+So resources mapped directly to 'documents'. That explains the Format of url which is '/' based. We must not forget that this is also a unix file separator !!
+
+c.) Viewing the whole Wolrd wide web as something as 'Resource' becomes completely abstract concept. Is the whole world a resource ?? ofcourse not ?
+then how come all the worlds information can be exchanged through this design ?
+Why should a server APIs be forced to map their system to a resource based ?
+I just dont agree with this great constraint - that the Repesentation must be resource based ?
+
+
+So then what --
+
+Then This seems to defy the one of the priciples of web architectture originally evisaged by Fielding 
+i.e Uniform Represenation of Interfaces - Ah What does this mean ? It means that client and server must interact in a uniform way.
+It has been achieved by APIS supporinting implementation for HTTP methods ( GET POST PUT DELERE ) and making the server system as resource based !! haha haha
+
+
+This constraint is the most excruciating of the constraints. If this constraint were to be broken then developing a web apis would be very easy. 
+Simple :
+1. Use the power of HTTP, but avoid a resource based system.? That means break this constraint of uniform interfaces.?
+Ok then what other things break beacuse of this
+
+
+URI Modelling :
+1. What should be the structure of URI's. It is jsut an idntifier, to uniquely identify a resource. So why the hell the great advocates are proposing a heirarchy like structure for URI
+To uniquely identify a player , this urI can be used. According to rest enthusiastics, this is a preferred URI.
+http://api.soccer.restapi.org/leagues/seattle/teams/trebuchet/players/2
+
+
+This URI explains the entire heirarchy. It tells leaguees --> seattle --> teams ----> players heirarchy.
+
+But see the problem with this URI, just to identify a player, a while heirarchy has been exposed. URI ahs been over-loded with not only extra information but also knowledge. It can now be intrepreted by the client.
+and it is possible to intrepret it wrongly and confusingly. Why should information + knowldege of a resource model be super-imposed on an URI.
+Cannot this URi be a simple plane identifier, just to identify a resource. It not be interpreted by the client and hence URI modellers must take extra care , that they do not super impose information on URI, in this case
+this uRI is supper-imposed with the information of complete reource heirarchy
+
+This URI to identify players can simply be :
+http://api.soccer.restapi.org/leagues/players
+
+I am of the view that every API must expose a page that contains a web circuit. A web circuit will be a concisee human readable html document that would contain the entire knowledge of the API. So may have the
+a diagram to the complete resource model. Will have links to move and additional metadata to explain the traversal along the circuit. It will tell
+what operations are allowed on each path,
+
+
+
+Roy Fielding's original Dissertations :
+http://www.ics.uci.edu/~fielding/pubs/dissertation/rest_arch_style.htm
+Wiki Link:
+http://en.wikipedia.org/wiki/Representational_state_transfer
+
+
+CLient-server concerns :
+http://byterot.blogspot.co.uk/2012/06/what-i-think-coupling-is.html
+
+Http headers:
+http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html
+
+Nice fellow who thinks the way I have been thinking.How to achieve HATEOS .. and why HATEOES is not completely machine readable.
+http://www.infoq.com/articles/subbu-allamaraju-rest
+
+I think hateos is a nice concept but it cannot be achieved just by the adding links. Links are not machine readble entities. They have a menaing assigneed to it and the client can find the meaning assigned ot it
+only by reading docs."rel" of link does not describe any anything. It is jus an URI and as per the specs URI must not be assigned a meaning. So how come the world is using URI as "rel" and
+speaking that it has acieved hateos ?? 
+2. WHy include only media-type. A resource can have multiple represeentation only on the basis of "media-types" , what about language ?
+
+
+------ THREADS --------------------------------------------------
+
+Multi - Threaded 
+1. Both getter and setter needs to be synchronised. 
+Getters neeed to be synchronised as there ordering of operation is not guaranteed by compilers
+So visibility + atomicity = tasks achievable by synchronisation
+
+
+http://inheritingjava.blogspot.in/p/scwcd-certification.html
+
+Concurrent hash map -
+Advantages : 1.) Better throghput, better performance
+2. ) No Concurretn Modifications Excdption in case of iteration 
+
+Disadvantages :
+1.) size = It does not return the correct size in case of modification during iteration
+2. ) A lock cannot be obtained on the complete Map. As lokcs are hold in buckets.
+3. ) Client side modification code cannot be written like a Synchronized Wraper , like Collections.synchornizedMap
+
+CopyOnWriteList:
+Advantages : 1. ) no Concurretn modification exception while iteration.
+As soon the array is modified , a new copy is send. So it behaves as an immmutable object, where a change operaton returns a copy of array
+
+
+Disadvantages:
+1.) Copy operation can be expensive. So care must be takens that such a kind of List is used in situations be used in cases where
+requiement for Iterations far outnumber the requirement for modifications
+This criterion exactly describes many event notification systems: delivering a notification requires iterating 
+the  list  of  registered  listeners  and  calling  each one  of  them,  and  in  most  cases  registering  or  unregistering  an  event 
+listener is far less common than receiving an event notification. 
+
+
+NOTE ** : ConcurrentModificationException happends while iteration performed by one thread and another thread simultaneoulsy tries to modify the Map or List
+To avoid this Exception , it is necessary to obtain a lock and then iterate. but getting a lock on the entire object, may severely affect the throughput.
+
+The concurrent packakes do not throw this exception. They imnploy various techniques to avoid throwing this exception, or to minimize this.
+
+ag;aag
+
+---------- 
+
+OAuth 2. Specifications :
+1. http://tools.ietf.org/html/rfc6749
+2.http://hueniverse.com/oauth/guide/intro/
+
+2. Glossary of security terms - http://tools.ietf.org/html/rfc4949
+
+3.Nice Link to hanlde apps that maintain session : 
+http://www.salesforce.com/us/developer/docs/api_rest/Content/quickstart_oauth.htm
+
+4. http://tutorials.jenkov.com/oauth2/request-response.html --- by Jenkon, Nice one
+
+5. https://developers.google.com/accounts/docs/OAuth -- Google Docs
+
+6. http://oauth.net/code/ -- OAuth Code svn links
+
+7. http://www.salesforce.com/us/developer/docs/api_rest/Content/quickstart_oauth.htm -- Nice Linke from sales force
+
+-- Attacks on OAuth
+http://software-security.sans.org/blog/2011/03/07/oauth-authorization-attacks-secure-implementation
+http://phys.org/news/2013-02-vulnerability-facebook-oauth-hacker-full.html
+
+-- Online tool for Drawing Flowcharts
+https://www.draw.io/
+
+Http Message RFC :
+http://tools.ietf.org/html/rfc2616
+
+http://pic.dhe.ibm.com/infocenter/tivihelp/v2r1/index.jsp?topic=%2Fcom.ibm.isam.doc_70%2Fameb_webseal_guide%2Ftask%2Ftsk_conf_js_redir.html - 
+Nice Link explain the technical subleties to implicit grant flow
+
+
