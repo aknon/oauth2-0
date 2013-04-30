@@ -1,0 +1,91 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta http-equiv="cache-control" content="no-cache">
+<meta http-equiv="expires" content="0">
+<meta http-equiv="pragma" content="no-cache">
+<title>Hello jsp ! Funny !!</title>
+
+
+<script src="/restful-js/scripts/oauth.js" type="text/javascript"></script>
+<script src="scripts/jquery-2.0.0.js"></script>
+
+<script type="text/javascript">
+//document.write( "hi ");
+//document.write( "<br>" + get_client_id() );
+//document.write( "<br>" + get_state() );
+//document.write( "<br>" + get_access_token() );
+
+
+
+function doAct(appUrl) {
+	alert( "appurl: " + appUrl );
+	postAppUrl(appUrl);
+}
+
+function postAppUrl(appUrl, divId) {
+
+	alert( "appurl: " + appUrl );
+	var url = "http://" + get_host() + ":8080"+ appUrl;
+	
+	alert( "url: " + url );
+	$.post( url, 
+			{ "client_id" : get_client_id(), 
+		    "access_token" : get_access_token(),
+		    	"state" : get_state()				  
+			} )
+			.done( function(data) {
+				alert("success");
+				$('#toReplace').replaceWith(data);
+				//document.getElementById('app_result').innerHtml=data;
+			})
+			.fail( function(data,error) {
+				alert("error : " + error);
+			});
+			
+}
+
+</script>
+
+</head>
+<body >
+
+<div id="toReplace" align="center">
+
+<div align="center">
+<img src="/restful-js/images/redirect.jpg" alt="Great Work" width="304" height="228">
+<br><br>
+<font size="4" face="verdana" color="brown"><b>Redirected EndPoint on the Client App</b></font>
+<br><br>
+</div>
+
+	
+
+
+<!--  to store app resutl html -->
+<div  id="app_result" align="center" >
+</div>
+
+<div align="center">
+<br><br>
+<font size="3" face="verdana" color="blue"><b>Click on the Button to access the app<br>This html page has embedded javascript which shall carry the access token along</b></font>
+<br><br>
+<font size="2" face="verdana" color="black"><b><i>Access_token accessed by this page: </i></b><b><script type="text/javascript">document.write(get_access_token());</script></b></font>
+<br><br><button type="button" id="access_my_app" onclick="doAct('/restful-js/clientapp')" >Access My App</button>
+
+
+<br><br><a target="_blank" href="http://restful-fundamentals.blogspot.in/2013/04/oauth-20-introducation.html">See my Complete Tutotial For OAuth 2.0</a>
+<br>Thank You
+
+</div>
+
+
+
+
+</div>
+
+</body>
+</html>
