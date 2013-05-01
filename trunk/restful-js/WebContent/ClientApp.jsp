@@ -21,13 +21,14 @@
 
 <div id="scope-id" class="scope-id">
 <font size="3" face="verdana" color="purple"><b>Your Resources Accessed: </b></font>
-</div>
-
-
 <script type="text/javascript"  >
 	//$('div.scope-id')( { "font-size":"300%", "font-family":"verdana", "color":"purple", "font-style": "italic", "font-weight":"bolder"   } ).html("Scope");
 	$('div.scope-id').append('<%= request.getAttribute("scope") %>').css( { "font-size":"3", "font-family":"verdana", "color":"purple", "font-style": "italic", "font-weight":"bolder"   } );
 </script>
+</div>
+
+
+
 
 
 

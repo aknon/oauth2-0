@@ -17,7 +17,6 @@
 
 function doAct() {
 	var appUrl = "/restful-js/clientapp";
-	alert( "appurl: " + appUrl );
 	postAppUrl(appUrl);
 }
 

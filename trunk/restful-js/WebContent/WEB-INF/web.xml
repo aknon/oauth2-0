@@ -14,6 +14,15 @@ xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j
 </servlet-mapping>
 
 <servlet>
+<servlet-name>start</servlet-name>
+<jsp-file>/start.html</jsp-file>
+</servlet>
+<servlet-mapping>
+<servlet-name>start</servlet-name>
+<url-pattern>/start</url-pattern>
+</servlet-mapping>
+
+<servlet>
 <servlet-name>authorise</servlet-name>
 <servlet-class>com.goraksh.rest.AuthorisationServlet</servlet-class>
 </servlet>

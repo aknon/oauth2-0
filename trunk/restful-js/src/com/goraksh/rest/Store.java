@@ -95,6 +95,7 @@ public class Store {
 			params = generateAndAddAccessToken( params );
 		}
 		params.setState(state);
+		params.setRequestId(sessionId);
 
 		store.put(sessionId, params);
 		return params;
@@ -111,6 +112,7 @@ public class Store {
 			params = generateAndAddAccessToken( params );
 		}
 		params.setState(state);
+		params.setRequestId( state );
 
 		store.put(state, params);
 		return params;
