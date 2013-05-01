@@ -36,7 +36,7 @@ public class OAuthStartServlet extends HttpServlet {
 		
 		
 		
-		AuthParams auth = Store.createWithoutAccessToken( request.getSession().getId() );
+		AuthParams auth = Store.createWithoutAccessToken( );
 		auth.setScope( scope );
 		
 		System.out.println("Created Auth Params without Access Tokens: " + auth.toString());

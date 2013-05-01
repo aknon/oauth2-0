@@ -14,7 +14,7 @@ public class AuthParams {
 	private String accessToken;
 	private long issueTime;
 	private String scope;
-	private String sessionId;
+	private String requestId;
 	
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
@@ -23,6 +23,14 @@ public class AuthParams {
 		.append(", Access Token: ").append( accessToken != null ? accessToken : "")
 		.append(", Issue Time: ").append( issueTime );
 		return sb.toString();
+	}
+	
+	public String getRequestId() {
+		return this.requestId;
+	}
+	
+	public void setRequestId( String requestId ) {
+		this.requestId = requestId;
 	}
 	
 	public String getScope() {

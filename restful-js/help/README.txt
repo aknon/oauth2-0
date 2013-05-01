@@ -1,5 +1,5 @@
 Deploy this app as a web appplication on, perhaps, apache tomcat
-Start Url : http://localhost:8080/restful-js/jdemo.html
+Start Url : http://localhost:8080/restful-js/start
 
 uername: nk
 password: nk

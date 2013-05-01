@@ -7,7 +7,7 @@ package com.goraksh.rest;
  */
 public class ErrorManger {
 	
-	private static long EXPIRY_IN_SECS = 60l;
+	private static long EXPIRY_IN_SECS = 30l;
 	
 	public static void cancelToken( AuthParams params ) {
 		params.cancel();

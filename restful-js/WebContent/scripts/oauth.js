@@ -190,7 +190,7 @@ function loadMyApp() {
 		data : null,
 		dataType : "text",
 		success: function(res) {
-			alert(res);
+			//alert(res);
 			authoriseInNewWindow(res);
 			}
 
@@ -220,17 +220,16 @@ function authoriseInNewWindow(authUri) {
 
 function postAppUrl(appUrl) {
 
-	alert( "appurl: " + appUrl );
 	var url = "http://" + get_host() + ":8080"+ appUrl;
 	
-	alert( "url: " + url );
+	//alert( "url: " + url );
 	$.post( url, 
 			{ "client_id" : get_client_id(), 
 		    "access_token" : get_access_token(),
 		    	"state" : get_state()				  
 			} )
 			.done( function(data) {
-				alert("success-hi" + data);
+				//alert("success-hi" + data);
 				//$('#toHide').hide();
 				//$('#toReplace').html(data);
 				

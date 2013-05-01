@@ -16,7 +16,7 @@
 
 function setBeforeSubmit(obj) {
 	
-	alert("setting values before submit");
+	//alert("setting values before submit");
 	var access_allowed = "false";
 	if ( obj == "allow") {
 		access_allowed ="true";
@@ -55,7 +55,7 @@ function submitForm() {
 	         url: action,
 	         data: frm.serialize(),
 	         success: function (data) {
-	        	 alert('response text' + data);
+	        	 //alert('response text' + data);
 	            
 	             if ( data.indexOf("http") == -1 ) {
 	            	  	   handleLoginFailed(data);
@@ -92,7 +92,7 @@ $(document).ready(function() {
 </head>
 <body id="scriptbody" >
 
-	<div align="center">
+	<div align="center" id="endpoint" class="endpoint">
 		<br>
 		<br> <img src="/restful-js/images/authenticate.jpg"
 			alt="Great Work" width="304" height="228"> <br>
@@ -106,15 +106,18 @@ $(document).ready(function() {
 				Resources that will be Accessed :</b></font><font size="4" face="verdana"
 			color="purple"> <b><i> <%=request.getAttribute("scope")%>
 			</i></b></font> <br>
-		<br> <font size="3" face="verdana" color="black">Enter
+		<br> 
+		
+		<font size="3" face="verdana" color="black">Enter
 			your Credentials and click 'Allow Access' to <b>Allow Access</b> or
 			Click 'Deny' to <b>Deny Access</b>
 		</font> <br>
 		<br>
 	</div>
 
+<div align="center" id="form" class="form">
 	<form name="authenticate_app" id="authenticate_app"	 action="/restful-js/oauthlogin" method="POST" target="_parent" >
-		<div align="center">
+		
 			<br> <font size="2" face="verdana" color="black"><b>Username/Email:
 			</b></font><input type="text" name="user_name"><br> <font size="2"
 				face="verdana" color="black"><b>Password: </b></font><input
@@ -129,13 +132,14 @@ $(document).ready(function() {
 			<input type="hidden" id="request_id" name="request_id" value="">
 			<input type="hidden" id="scope" name="scope" value=""> <input
 				type="hidden" id="access_allowed" name="access_allowed" value="">
-		</div>
+		
 	</form>
+	</div>
 	
 	<br><div id="login-error" class="login-error" align="center"></div>
 	
 
-	<div align="center">
+	<div align="center" id="info" class="info">
 		<br>
 		<br> <font size="3" face="verdana" color="brown"><b>Your
 				username and password shall be verified by the Authorisaton Server(
