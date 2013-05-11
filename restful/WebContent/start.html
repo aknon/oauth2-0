@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Insert title here</title>
+
+<script src="scripts/jquery-2.0.0.js">
+	
+</script>
+
+<script type="text/javascript">
+	function doOpen1() {
+		//var authorizeUri = "http://localhost:8080/restful/authendpoint?response_type=token&client_id=9nkdc8hqfib85szqi3t1&scope=HurrayPhotos&state=wm5xf5rw8nbubim4advl&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Frestful%2Fredirect";
+		//window.open(authorizeUri, 'Authorize', 'height=600, width=450');
+		// if (window.focus) this.dialog.focus();
+		alert("in doopen1");
+	}
+
+	function loadMyApp() {
+
+		//$.get(myappUri, function(data,status){
+		//alert("Data: " + data);	});
+		
+		var k = '';
+		$.ajax({
+			type : "GET",
+			url : "http://localhost:8080/restful/myapp",
+			data : null,
+			dataType : "text",
+			success: function(res) {
+				windowOpen(res);
+				}
+
+		});
+		
+	}
+
+	function abc() {
+		alert("in abc");
+		var myappUri = "http://localhost:8080/restful/myapp";
+		var data1 = "";
+		$.get(myappUri, function(data, status) {
+			alert("Data: " + data);
+			//data1 = data;
+		});
+
+		//alert(s.responseText);
+	}
+	
+	function windowOpen(authUri) {
+		var dialog = window.open(authUri, 'Authorize', 'height=600, width=450');
+		 if (window.focus) dialog.focus();
+		//alert(window.location);
+		//alert(s.responseText);
+	}
+</script>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+
+		//$("button").click(loadMyApp());
+		$("button").click(loadMyApp);
+		
+		
+
+	});
+</script>
+
+</head>
+<body>
+
+	<div align="center">
+		<br>
+		<br>
+		<br>
+		<br>
+		<button id="auth-redirect">Go To Authorisation End Point</button>
+
+	</div>
+
+
+</body>
+</html>
