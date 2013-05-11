@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?> 
 
 <web-app xmlns="http://java.sun.com/xml/ns/j2ee"
 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -15,11 +15,29 @@ xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j
 
 <servlet>
 <servlet-name>authorise</servlet-name>
-<servlet-class>com.goraksh.rest.AuthorisationServlet</servlet-class>
+<servlet-class>com.goraksh.rest.clientapp.AuthorisationServlet</servlet-class>
 </servlet>
 <servlet-mapping>
 <servlet-name>authorise</servlet-name>
 <url-pattern>/authorise</url-pattern>
+</servlet-mapping>
+
+<servlet>
+<servlet-name>clientregister</servlet-name>
+<servlet-class>com.goraksh.rest.auth.ClientRegistrationServlet</servlet-class>
+</servlet>
+<servlet-mapping>
+<servlet-name>clientregister</servlet-name>
+<url-pattern>/register</url-pattern>
+</servlet-mapping>
+
+<servlet>
+<servlet-name>clientredirectendpoint</servlet-name>
+<servlet-class>com.goraksh.rest.clientapp.RedirectEndPointServlet</servlet-class>
+</servlet>
+<servlet-mapping>
+<servlet-name>clientredirectendpoint</servlet-name>
+<url-pattern>/redirect</url-pattern>
 </servlet-mapping>
 
 <servlet>
@@ -32,8 +50,17 @@ xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j
 </servlet-mapping>
 
 <servlet>
+<servlet-name>tokenendpoint</servlet-name>
+<servlet-class>com.goraksh.rest.auth.TokenEndPointServlet</servlet-class>
+</servlet>
+<servlet-mapping>
+<servlet-name>tokenendpoint</servlet-name>
+<url-pattern>/token</url-pattern>
+</servlet-mapping>
+
+<servlet>
 <servlet-name>oauthstart</servlet-name>
-<servlet-class>com.goraksh.rest.OAuthStartServlet</servlet-class>
+<servlet-class>com.goraksh.rest.clientapp.OAuthStartServlet</servlet-class>
 </servlet>
 <servlet-mapping>
 <servlet-name>oauthstart</servlet-name>
@@ -42,7 +69,7 @@ xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j
 
 <servlet>
 <servlet-name>oauthlogin</servlet-name>
-<servlet-class>com.goraksh.rest.OAuthLoginServlet</servlet-class>
+<servlet-class>com.goraksh.rest.auth.OAuthLoginServlet</servlet-class>
 </servlet>
 <servlet-mapping>
 <servlet-name>oauthlogin</servlet-name>
@@ -51,7 +78,7 @@ xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j
 
 <servlet>
 <servlet-name>clientapp</servlet-name>
-<servlet-class>com.goraksh.rest.ClientAppServlet</servlet-class>
+<servlet-class>com.goraksh.rest.clientapp.ClientAppServlet</servlet-class>
 </servlet>
 <servlet-mapping>
 <servlet-name>clientapp</servlet-name>
@@ -60,7 +87,7 @@ xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j
 
 <servlet>
 <servlet-name>loginapp</servlet-name>
-<servlet-class>com.goraksh.rest.LoginServlet</servlet-class>
+<servlet-class>com.goraksh.rest.clientapp.LoginServlet</servlet-class>
 </servlet>
 <servlet-mapping>
 <servlet-name>loginapp</servlet-name>
@@ -75,6 +102,35 @@ xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j
 <servlet-name>hellojsp</servlet-name>
 <url-pattern>/hellojsp</url-pattern>
 </servlet-mapping>
+
+<servlet>
+<servlet-name>registerjsp</servlet-name>
+<jsp-file>/registerform.jsp</jsp-file>
+</servlet>
+<servlet-mapping>
+<servlet-name>registerjsp</servlet-name>
+<url-pattern>/registerform</url-pattern>
+</servlet-mapping>
+
+<servlet>
+<servlet-name>clienterrorjsp</servlet-name>
+<jsp-file>/ClientError.jsp</jsp-file>
+</servlet>
+<servlet-mapping>
+<servlet-name>clienterrorjsp</servlet-name>
+<url-pattern>/clienterror</url-pattern>
+</servlet-mapping>
+
+
+<servlet>
+<servlet-name>clientresponsejsp</servlet-name>
+<jsp-file>/ClientResponse.jsp</jsp-file>
+</servlet>
+<servlet-mapping>
+<servlet-name>clientresponsejsp</servlet-name>
+<url-pattern>/clientresponse</url-pattern>
+</servlet-mapping>
+
 
 <servlet>
 <servlet-name>gamesjsp</servlet-name>
@@ -128,7 +184,7 @@ xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j
 </servlet>
 <servlet-mapping>
 <servlet-name>clientredirectionjsp</servlet-name>
-<url-pattern>/redirect</url-pattern>
+<url-pattern>/old_redirect_old</url-pattern>
 </servlet-mapping>
 
 <servlet>

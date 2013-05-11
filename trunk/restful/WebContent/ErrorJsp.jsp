@@ -14,13 +14,13 @@
 <div align="center">
 <br><br><img src="/restful/images/access_denied.jpg" alt="Access Denied to this App" width="304" height="228">
 <br><br>
-<font size="5" face="verdana" color="red"><b>Access Denied</b> 
+<font size="5" face="verdana" color="red"><b>Access Denied</b></font>
 <% if ( request.getAttribute("access_token") != null ) { %>
-for Access Token: </font><font size="3" face="verdana" color="red"><b><i><%= request.getAttribute("access_token") %></i></b></font>
+<font size="5" face="verdana" color="red">for Access Token: </font><font size="2" face="verdana" color="blabk"><b><i><%= request.getAttribute("access_token") %></i></b></font>
 <% } %>
 
 <br><br>
-<font size="3" face="verdana" color="blue"><b>Reason for Denial : </b></font><font size="3" face="verdana" color="red"><b><i><%= request.getAttribute("error_message") %></i></b></font>
+<font size="3" face="verdana" color="blue"><b>Reason for Denial : </b></font><font size="3" face="verdana" color="red"><b><i><%= request.getAttribute("error_description") %></i></b></font>
 <br><br><a target="_blank" href="http://restful-fundamentals.blogspot.in/2013/04/oauth-20-introducation.html">See my Complete Tutotial For OAuth 2.0</a>
 <br>Thank You
 </div>
