@@ -2,6 +2,9 @@ package com.goraksh.rest;
 
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.goraksh.rest.clientapp.ErrorManger;
+import com.goraksh.rest.clientapp.AuthParams;
+
 /**
  * 
  * @author niteshk
@@ -11,12 +14,13 @@ public class Store {
 
 	private static String CLIENT_ID;
 	private static String CLIENT_NAME;
+	
 	private static RandomString random;
 	private static ConcurrentHashMap<String, AuthParams> store;
 	
 
 	static {
-		random = new RandomString(20);
+		random = RandomString.getInstance();
 		CLIENT_ID = random.nextString();
 		CLIENT_NAME = "Test App";
 
@@ -34,10 +38,18 @@ public class Store {
 		}
 	
 	public static AuthParams createWithoutAccessToken(String sessionId) {
-		System.out.println("Creating new Access Tokens and ClientId for Session Id:" + sessionId + " .Length :"
-				+ sessionId.length());
+		System.out.println("Creating new Access Tokens and ClientId for Session Id:" + sessionId);
 		
 		AuthParams params = createNew(sessionId, false);
+		System.out.println("New. SessionId: " + sessionId + " ,client_id :" + params.getClientId() + " ,access_token :" + params.getAccessToken());
+		return params;
+	   
+		}
+	
+	public static AuthParams createWithoutAccessToken(String sessionId, String clientId) {
+		System.out.println("Creating new Access Tokens and ClientId for Session Id:" + "  and Client Id: " + clientId);
+		
+		AuthParams params = createNew(sessionId, clientId, false);
 		System.out.println("New. SessionId: " + sessionId + " ,client_id :" + params.getClientId() + " ,access_token :" + params.getAccessToken());
 		return params;
 	   
@@ -89,6 +101,27 @@ public class Store {
 		params.setState(state);
 
 		store.put(sessionId, params);
+		return params;
+	}
+	
+	private static AuthParams createNew(String sessionId, String clientId, boolean withAccessToken) {
+		String state = random.nextString();
+		
+		AuthParams params = new AuthParams();
+		
+		if ( clientId == null || "".equals(clientId))
+			clientId = CLIENT_ID;
+		
+		params.setClientId(clientId);
+		params.setClientName( CLIENT_NAME );
+		
+		if ( withAccessToken ) {
+			params = generateAndAddAccessToken( params );
+		}
+		params.setState(state);
+
+		//store.put(sessionId, params);
+		store.put(state, params);
 		return params;
 	}
 

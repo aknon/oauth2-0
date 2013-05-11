@@ -158,3 +158,89 @@ function get_access_token() {
 }
 
 
+function store(originalUrl) {			
+	
+	var urlStr = originalUrl;
+  	var host = get_host();		
+
+	var queryStr = get_query(urlStr);
+	var queryParams = get_queryMap(queryStr);
+
+
+	var urlFragment = get_urlfragment(urlStr);
+	if ( urlFragment ) {
+	var fragment = get_fragmentMap(urlFragment);
+	set_cookie("access_token", fragment["access_token"], 1, host);
+	}		 
+
+	set_cookie("client_id", queryParams["client_id"], 1, host);
+	set_cookie("state", queryParams["state"], 1, host);
+
+
+	var originalUrl = get_url(urlStr);
+	return originalUrl;
+}
+
+function loadMyApp() {
+
+	var host = "http://" + location.host + "/restful-js/myapp";
+	$.ajax({
+		type : "GET",
+		url : host,
+		data : null,
+		dataType : "text",
+		success: function(res) {
+			//alert(res);
+			authoriseInNewWindow(res);
+			}
+
+	});
+	
+}
+
+
+function handleRedirectUrl(urlStr1, win) {
+	if ( win.focus) window.focus();
+	
+	//alert("Redirect Url passed to parent: " + urlStr );
+	var urlStr = urlStr1;
+	win.close();
+	
+	var originalUrl = store(urlStr);
+	
+	
+	relocate(originalUrl);	
+	
+}
+
+function authoriseInNewWindow(authUri) {
+	var dialog = window.open(authUri, 'Authorise', 'height=700, width=550'); // this window on login success will call handleReirectUrl
+	 if (window.focus) dialog.focus();
+}
+
+function postAppUrl(appUrl) {
+
+	var url = "http://" + get_host() + ":8080"+ appUrl;
+	
+	//alert( "url: " + url );
+	$.post( url, 
+			{ "client_id" : get_client_id(), 
+		    "access_token" : get_access_token(),
+		    	"state" : get_state()				  
+			} )
+			.done( function(data) {
+				//alert("success-hi" + data);
+				//$('#toHide').hide();
+				//$('#toReplace').html(data);
+				
+				//var itemtoReplaceContentOf = $('#toHide');
+             // itemtoReplaceContentOf.replaceWith(data);
+
+
+				//document.getElementById('#toHide').innerHtml(data);
+				$('.toHide').hide();
+				$('.toReplace').replaceWith(data);
+			});
+			
+			
+}

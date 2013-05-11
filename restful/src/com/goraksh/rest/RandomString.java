@@ -8,6 +8,8 @@ import java.util.Random;
  */
 public class RandomString
 {
+	
+	private static final int LENGHT = 20;
 
   private static final char[] symbols = new char[36];
 
@@ -19,10 +21,17 @@ public class RandomString
   }
 
   private final Random random = new Random();
+  private static RandomString instance;
 
   private final char[] buf;
 
-  public RandomString(int length)
+  public static synchronized RandomString getInstance() {
+	  if ( instance == null )
+		  instance = new RandomString(LENGHT);
+	  return instance;
+  }
+  
+  private RandomString(int length)
   {
     if (length < 1)
       throw new IllegalArgumentException("length < 1: " + length);

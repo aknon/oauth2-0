@@ -1,5 +1,6 @@
 Deploy this app as a web appplication on, perhaps, apache tomcat
-Start Url : http://localhost:8080/restful/myapp
+Start Url : http://localhost:8080/restful/register
+
 
 Follow the links thereon.
 

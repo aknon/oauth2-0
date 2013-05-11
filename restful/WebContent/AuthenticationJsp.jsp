@@ -16,13 +16,13 @@
 <body>
 
 <div align="center">
-<br><br>
+<br>
 <img src="/restful/images/authenticate.jpg" alt="Great Work" width="304" height="228">
 <br><br>
 <font size="4" face="verdana" color="brown"><b>Authorisation EndPoint on the Authorisation Server</b></font>
 <br><br>
 
-<br><br>
+<br>
 <font size="4" face="verdana" color="purple"><b><%= request.getAttribute("client_name") %> </b> </font><font size="3" face="verdana" color="green"><b>would like to Access Some of your protected Resources</b></font>
 <br><font size="3" face="verdana" color="blue"><b>Your Resources that will be Accessed :</b></font><font size="4" face="verdana" color="purple"> <b><i> <%= request.getAttribute("scope") %> </i></b></font>
 <br><br>
@@ -30,12 +30,12 @@
 <br><br>
 </div>
 
-<form name="authenticate_app" action="/restful/oauthlogin" method="POST">
+<form name="authenticate_app" action="/restful/oauthlogin" method="POST" target="_parent">
 <div align="center">
 <br>
-<font size="2" face="verdana" color="black"><b>Username/Email: </b></font><input type="text" name="user_name"><br>
-<font size="2" face="verdana" color="black"><b>Password: </b></font><input type="text" name="password">
-<br><br>
+<font size="2" face="verdana" color="black"><b>Username/Email: </b></font><input type="text" name="user_name" value="nk" ><br>
+<font size="2" face="verdana" color="black"><b>Password: </b></font><input type="text" name="password" value="nk">
+<br>
 <ul>
 <li>
 <input type="submit" value="Allow Access"  onclick="javascriopt:submitThis(this)"/>
@@ -49,17 +49,18 @@
 </form>
 
 <div align="center">
-<br><br>
+<br>
+<font size="3" face="verdana" color="red"><b><i><u>** Note **</u></i></b></font>
+<br>
 <font size="3" face="verdana" color="brown"><b>Your username and password shall be verified by the Authorisaton Server( you must trust this )
 <br>
-On Successful authorisation server, will return a html page with some javascript code and a Redirect url 
-<br>This Redirect Url has the Access Token in the Url hash fragment
+On Successful authorisation , your browser's user-agent will be redirected
+<br>to the 'Redirection End Point' along with a valid Authorisation Code ( 'code' )
 <br><br>
-This script will extract the hash component of the Redirect Url as 'Access Token' save with the Browser's user-agent
-<br>
-This script will then redirect the Broswer's user-agent to the new Redirect Url which does not contain the hash fragment anymore
-<br>
-So 'Access Token' is issued right during authorsation and stored with the user-agent for subsequent requests</b></font>
+Client App Redirection End Point resource can then use  this 'code' 
+<br>to fetch Access Token from the Authorisation server
+<br>These Access tokens then can be send along every request to serve the user request
+</b></font>
 </div>
 
 <div align="center">

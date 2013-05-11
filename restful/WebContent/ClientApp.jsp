@@ -9,7 +9,6 @@
 <meta http-equiv="pragma" content="no-cache">
 
 
-<script src="/restful/scripts/oauth.js" type="text/javascript"></script>
 
 <title>Actual Client App</title>
 </head>
@@ -19,7 +18,7 @@
 <img src="/restful/images/hurray.jpg" alt="Great Work" width="304" height="228">
 <br><br>
 <font size="5" face="verdana" color="orange"><b>HURRAY ! </b></font><font size="3" face="verdana" color="green"><b>You have accessed this Client App using </b></font>
-<font size="4" face="verdana" color="green"><b><i>Implicit Grant FLow</i></b></font>
+<font size="4" face="verdana" color="green"><b><i>Authorisation Code Grant Flow</i></b></font>
 <br>
 <font size="3" face="verdana" color="purple"><b>Your Resources Accessed: </b></font><font size="4" face="verdana" color="purple"><b><i><%= request.getAttribute("scope") %></i></b></font>
 <br><br>
@@ -30,11 +29,9 @@
 <br><br>
 <font size="3" face="verdana" color="blue"><b>Click on the Button to access the app<br>This html page has embedded javascript which shall carry the access token along</b></font>
 <br><br>
-<font size="2" face="verdana" color="black"><b><i>Access_token accessed by this page: </i></b><b><script type="text/javascript">document.write(get_access_token());</script></b></font>
-<br><br><input type="submit" value="Going further" >
-<br><input type="hidden" id="client_id" name="client_id" value="" >
+<font size="2" face="verdana" color="black"><b><i>Access_token accessed by this page: </i></b><b><%= request.getAttribute("access_token") %></b></font>
+<br><br><input type="submit" value="Going further"  onclick="doThis()">
 <br><input type="hidden" id="state" name="state" value="" >
-<br><input type="hidden" id="access_token" name="access_token" value="" >
 
 </div>
 </form>
@@ -50,15 +47,11 @@
 //document.write( "<br>" + get_state() );
 //document.write( "<br>" + get_access_token() );
 
-var clientId = document.getElementById('client_id');
-clientId.value = get_client_id();
-
-var accessToken = document.getElementById('access_token');
-accessToken.value = get_access_token();
-
+function doThis() {
 var state = document.getElementById('state');
-state.value = get_state();
+state.value = '<%= request.getAttribute("state") %>';
 
+}
 
 
 
