@@ -24,6 +24,13 @@ public class ValidationLib {
 				+ " .valid: " + valid);
 		return valid;
 	}
+	
+	public static boolean validateResponseTypeToken(String responseType) {
+		boolean valid = "token".equals(responseType);
+		System.out.println("Validating response_type: " + responseType
+				+ " .valid: " + valid);
+		return valid;
+	}
 
 	public static boolean validateGrantTypeCode(String grantType) {
 		boolean valid = "authorization_code".equals(grantType);

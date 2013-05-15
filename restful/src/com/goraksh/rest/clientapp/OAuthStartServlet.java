@@ -33,27 +33,22 @@ public class OAuthStartServlet extends HttpServlet {
 						+ sessionId);
 		System.out.println("Host name:" + request.getServerName());
 
+		/* This is shared by both Client and Authorisation server */
 		ClientAuthParams auth = generateParams( request );
 		auth = ClientAuthHandler.getInstance().generateKeyandSave(auth);
 
 		System.out.println("Created Auth Params without Access Tokens: "
 				+ auth.toString());
 
-		StringBuilder sb = new StringBuilder(Util.constructBaseUri(request) + ClientConstants.AUTHORISATION_END_POINT);
-
-		sb.append("?response_type=code").append("&client_id=")
-				.append(auth.getClientId()).append("&scope=").append(auth.getScope())
-				.append("&state=").append(auth.getState());
-
-		sb.append("&redirect_uri=").append(URLEncoder.encode(auth.getRedirectUri()));
-
-		String authEndPoint = sb.toString();
+		String authCodeEndPoint = Util.getAuthorisationGrantAuthEndPoint(request, auth);
+		String implicitGrantEndPoint = Util.getImplicitGrantAuthEndPoint(request, auth);
 
 		System.out
 				.println("Starting MyApp. Setting Authorisation End Point as : "
-						+ authEndPoint);
+						+ authCodeEndPoint + " , ImplictAuthEndPoint: " + implicitGrantEndPoint);
 
-		request.setAttribute("authorisation_uri", authEndPoint);
+		request.setAttribute("authorisation_uri", authCodeEndPoint+ "&type=authorisation");
+		request.setAttribute("authorisation_uri_implicit", implicitGrantEndPoint + "&type=implicit");
 		request.setAttribute("scope", auth.getScope());
 
 		getServletContext().getRequestDispatcher("/games").forward(request,

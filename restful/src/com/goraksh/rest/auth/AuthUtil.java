@@ -21,7 +21,23 @@ import com.goraksh.rest.auth.request.TokenRequest;
 import com.goraksh.rest.auth.request.TokenResponse;
 
 public class AuthUtil {
-
+	
+	public enum GrantType {
+		AUTHORISATION_CODE,
+		IMPLICIT,
+		CLIENT_CREDETIAL,
+		OTHER		
+	}
+	
+public static GrantType getGrantType( String type ) {
+	if ( "implicit".equals(type))
+		return GrantType.IMPLICIT;
+	
+	if ( "authorisation".equals(type))
+		return GrantType.AUTHORISATION_CODE;
+	
+	return GrantType.OTHER;
+}
 	public static String constructBaseUri(HttpServletRequest request) {
 		String scheme = request.getScheme();
 		String ipaddress = request.getServerName();// InetAddress.getLocalHost().getHostAddress();

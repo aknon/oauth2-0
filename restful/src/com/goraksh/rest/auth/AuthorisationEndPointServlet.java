@@ -1,12 +1,14 @@
 package com.goraksh.rest.auth;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.goraksh.rest.auth.AuthUtil.GrantType;
 import com.goraksh.rest.auth.map.AuthorisationCodeTable;
 import com.goraksh.rest.auth.map.ClientIdCodeTable;
 import com.goraksh.rest.auth.map.ClientRegistrationTable;
@@ -17,6 +19,8 @@ import com.goraksh.rest.auth.request.AuthorisationRequest;
 import com.goraksh.rest.auth.request.AuthorisationResponse;
 import com.goraksh.rest.auth.request.AuthorisationResponseGenerator;
 import com.goraksh.rest.auth.validation.AuthorisationValidator;
+import com.goraksh.rest.clientapp.map.ClientAuthHandler;
+import com.goraksh.rest.clientapp.map.ClientAuthParams;
 
 /**
  * 
@@ -36,15 +40,31 @@ public class AuthorisationEndPointServlet extends HttpServlet {
 		boolean loggedIn = request.getAttribute("login") != null ? true : false;
 		System.out
 				.println("Into Authorisation End Point Server. "
-						+ (loggedIn ? "User Login Crdentials have been Validated. Auth End Point will not proceed with constructing a Redirection End Point"
+						+ (loggedIn ? "User Login Crdentials have been Validated. Auth End Point will now proceed with constructing a Redirection End Point"
 								: " User not Authenticated., hence proceed to call login page"));
 		if (loggedIn) {
 			doPost(request, response);
 			return;
 		}
 
+		String type = request.getParameter("type");
+		GrantType grantType = AuthUtil.getGrantType(type);
+		
 		AuthorisationRequest authRequest = AuthUtil.extractAuthorisationParams(request);
-
+		
+		/** Just required because the way UI is constructed */
+		ClientAuthParams params = ClientAuthHandler.getInstance().get( authRequest.getState() ); // just a hack
+		params.setGrantType(grantType); // just a hack
+		/*** Above two lines are a special hack !!! */
+		
+		
+		System.out.println("Received Response_type=" + authRequest.getResponseType() + " , Grant Type of request " + grantType.toString() );
+		if (  grantType == GrantType.IMPLICIT ) {
+			
+			forwardToImplicitAuthEndPoint( request, response, authRequest );
+			return;
+		}
+		
 		System.out
 				.println("State: "
 						+ authRequest.getState()
@@ -60,7 +80,7 @@ public class AuthorisationEndPointServlet extends HttpServlet {
 			showErrroToUser(request, response, error);
 			return;
 		}
-
+		
 		if (redirectionOriented) {
 			String redirectEndPoint = getRedirectEndPoint(authRequest, error);
 			errorRedirectToClient(request, response, redirectEndPoint);
@@ -84,22 +104,93 @@ public class AuthorisationEndPointServlet extends HttpServlet {
 		forwardForLoginAuthentication(request, response);
 	}
 
+	public void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws IOException, ServletException {
+
+
+		String tmpRequestId = request.getParameter("request_id");
+		System.out.println("Into Authorisation End Point : POST. Fetching Authorisation Request Params for Tmp Request Id: "
+				+ tmpRequestId);
+
+		TempStore tmpStore = TempRequestMap.getInstance().get(
+				tmpRequestId);
+		
+		AuthorisationRequest authRequest = tmpStore.getAuth();
+		AuthorisationError error = tmpStore.getError();
+		boolean redirectionOriented = error!= null && error.hasError() && error.isRedirectionOriented();	
+		
+		if (redirectionOriented) {
+			System.out.println("Redirection Oriented Error from the Rest forwarded by the OAuthLoginServlet: " + error.getErrorMessage() );
+				String redirectEndPoint = getRedirectEndPoint(authRequest, error);
+				errorRedirectToClient(request, response, redirectEndPoint);
+				return;
+			}
+		
+		if (authRequest == null)
+			throw new NullPointerException(
+					"Authorisation Request Params map cannot be NULL at this point of Authorisation End Point : POST !!!");
+
+		System.out.println("In AuthnEndPoint. Scuccessfull validattion, Authentication and User access Allowed. Moving forward to Authorisation code generation");
+   AuthorisationResponseGenerator responseGenerator = new AuthorisationResponseGenerator(authRequest);
+   AuthorisationResponse authResponse = responseGenerator.authorisationGrantReponse();
+   AuthorisationCodeTable.getInstance().save(authRequest, authResponse);
+   ClientIdCodeTable.getInstance().save(authRequest, authResponse);
+   
+   TempRequestMap.getInstance().inValidateTmpId( tmpRequestId );
+   
+   String redirectEndPoint = getRedirectEndPoint(authRequest, authResponse);
+   okRedirectToClient(request, response, redirectEndPoint);	
+	}
+	
+	/**
+	 * 
+	 * @param request
+	 * @param response
+	 * @param authRequest
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	private void forwardToImplicitAuthEndPoint( HttpServletRequest request, HttpServletResponse response, AuthorisationRequest authRequest ) throws ServletException, IOException {
+		request.setAttribute("auth_request", authRequest );
+		System.out.println("Received A Implcit End Point Request. Will forward to /impliciteauthendpoint i.e ImplicitAuthorisationServlet");
+		getServletContext().getRequestDispatcher("/implicitauthendpoint").forward(request, response );
+	}
+	
+	/**
+	 * 
+	 * @param authRequest
+	 * @return
+	 */
 	private String getAppName(AuthorisationRequest authRequest) {
 		return ClientRegistrationTable.getInstance()
 				.get(authRequest.getClientId()).getAppname();
 	}
 
+	/**
+	 * 
+	 * @param authRequest
+	 * @param authError
+	 * @return
+	 * @throws UnsupportedEncodingException 
+	 */
 	private String getRedirectEndPoint(AuthorisationRequest authRequest,
-			AuthorisationError authError) {
+			AuthorisationError authError) throws UnsupportedEncodingException {
 		String baseUri = authRequest.getRedirectUri();
 		RedirectUriBuilder errorBuilder = new RedirectUriBuilder(baseUri);
-		return errorBuilder.buildErrorUri(authError, authRequest.getState());
+		return errorBuilder.buildErrorUriAuthorisationGrant(authError, authRequest.getState());
 	}
 	
-	private String getRedirectEndPoint(AuthorisationRequest authRequest, AuthorisationResponse authResponse) {
+	/**
+	 * 
+	 * @param authRequest
+	 * @param authResponse
+	 * @return
+	 * @throws UnsupportedEncodingException 
+	 */
+	private String getRedirectEndPoint(AuthorisationRequest authRequest, AuthorisationResponse authResponse) throws UnsupportedEncodingException {
 		String baseUri = authRequest.getRedirectUri();
 		RedirectUriBuilder okBuilder = new RedirectUriBuilder(baseUri);
-		return okBuilder.buildRedirectUri(authResponse);
+		return okBuilder.buildRedirectUriForAuthorisationGrant(authResponse);
 	}
 
 	private void errorRedirectToClient(HttpServletRequest request,
@@ -123,7 +214,7 @@ public class AuthorisationEndPointServlet extends HttpServlet {
 
 	private AuthorisationError validateAuthRequest(AuthorisationRequest params) {
 		AuthorisationValidator validator = new AuthorisationValidator(params);
-		return validator.validateAuthorisationRequest();
+		return validator.validateAuthorisationGrantRequest();
 	}
 
 	private void setClientName(String id, String value,
@@ -174,43 +265,4 @@ public class AuthorisationEndPointServlet extends HttpServlet {
 		request.getRequestDispatcher("/errorapp").forward(request, response);
 
 	}
-
-	public void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws IOException, ServletException {
-
-
-		String tmpRequestId = request.getParameter("request_id");
-		System.out.println("Into Authorisation End Point : POST. Fetching Authorisation Request Params for Tmp Request Id: "
-				+ tmpRequestId);
-
-		TempStore tmpStore = TempRequestMap.getInstance().get(
-				tmpRequestId);
-		
-		AuthorisationRequest authRequest = tmpStore.getAuth();
-		AuthorisationError error = tmpStore.getError();
-		boolean redirectionOriented = error!= null && error.hasError() && error.isRedirectionOriented();	
-		
-		if (redirectionOriented) {
-			System.out.println("Redirection Oriented Error from the Rest forwarded by the OAuthLoginServlet: " + error.getErrorMessage() );
-				String redirectEndPoint = getRedirectEndPoint(authRequest, error);
-				errorRedirectToClient(request, response, redirectEndPoint);
-				return;
-			}
-		
-		if (authRequest == null)
-			throw new NullPointerException(
-					"Authorisation Request Params map cannot be NULL at this point of Authorisation End Point : POST !!!");
-
-		System.out.println("In AuthnEndPoint. Scuccessfull validattion, Authentication and User access Allowed. Moving forward to Authorisation code generation");
-   AuthorisationResponseGenerator responseGenerator = new AuthorisationResponseGenerator(authRequest);
-   AuthorisationResponse authResponse = responseGenerator.generate();
-   AuthorisationCodeTable.getInstance().save(authRequest, authResponse);
-   ClientIdCodeTable.getInstance().save(authRequest, authResponse);
-   
-   TempRequestMap.getInstance().inValidateTmpId( tmpRequestId );
-   
-   String redirectEndPoint = getRedirectEndPoint(authRequest, authResponse);
-   okRedirectToClient(request, response, redirectEndPoint);	
-	}
-
 }

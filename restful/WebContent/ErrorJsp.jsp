@@ -12,7 +12,7 @@
 <body>
 
 <div align="center">
-<br><br><img src="/restful/images/access_denied.jpg" alt="Access Denied to this App" width="304" height="228">
+<br><br><img src="images/access_denied.jpg" alt="Access Denied to this App" width="304" height="228">
 <br><br>
 <font size="5" face="verdana" color="red"><b>Access Denied</b></font>
 <% if ( request.getAttribute("access_token") != null ) { %>

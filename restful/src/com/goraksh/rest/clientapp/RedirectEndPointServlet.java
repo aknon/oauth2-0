@@ -9,11 +9,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.goraksh.rest.auth.Constants;
 import com.goraksh.rest.auth.JsonUtil;
+import com.goraksh.rest.auth.AuthUtil.GrantType;
 import com.goraksh.rest.clientapp.map.ClientAuthHandler;
 import com.goraksh.rest.clientapp.map.ClientAuthParams;
 import com.goraksh.rest.clientapp.map.ClientGrantAttribute;
 import com.goraksh.rest.clientapp.map.ClientGrantTable;
+import com.goraksh.rest.clientapp.map.ClientRedirectRequestTable;
 import com.goraksh.rest.clientapp.request.ClientTokenResponse;
 import com.goraksh.rest.clientapp.request.RedirectionRequest;
 
@@ -33,7 +36,7 @@ public class RedirectEndPointServlet extends HttpServlet {
 			throws IOException, ServletException {
 
 		System.out
-				.println("Into client redirect end point servlet for sessionId. This EndPoint shall accept the code ( or error ) and make a request for a access_token" + request.getSession().getId());
+				.println("Into client redirect end point servlet for sessionId. This EndPoint shall accept the code ( or error ) and make a request for a access_token. \nState for this request: " +  request.getParameter("state"));
 
 		RedirectionRequest redirectRequest = Util.extractRedirectionParams(request);
 		
@@ -42,17 +45,33 @@ public class RedirectEndPointServlet extends HttpServlet {
 			return;
 		}
 		
-		System.out.println("Into Client RedirectEndPoint. Will now post to the Auth token end POint to fetch access token.");
+		ClientRedirectRequestTable.getInstance().save(redirectRequest.getState(), redirectRequest );
+		System.out.println("Into Client RedirectEndPoint. Will now post to the Auth token end POint to fetch access token for Redirection Request#state=." + redirectRequest.getState());
 		ClientAuthParams authParams = ClientAuthHandler.getInstance().get(redirectRequest.getState());
+		
+		System.out.println("Into Client Redirection End POint. If response_type=token, then shall forward it to /implicitredirect. Grant Type for this request state: " + authParams.grantType().toString());
+		if ( authParams.grantType() == GrantType.IMPLICIT) {
+			getServletContext().getRequestDispatcher("/implicitredirect").forward(request, response );
+			return;
+		}else if ( authParams.grantType() == GrantType.AUTHORISATION_CODE ) {
+			request.setAttribute("code", redirectRequest.getCode() );
+			request.setAttribute( "state", redirectRequest.getState() );
+			getServletContext().getRequestDispatcher("/authredirect").forward(request, response );
+			return;
+		}
+		
+		/*
 		String tokenEndPointUrl =  Util.constructBaseUri(request)  + ClientConstants.TOKEN_END_POINT ;
 		
 	
 		String urlEncodedTokenRequest = constructTokenPostRequest( redirectRequest, authParams );
+		// POST to Token End Point and Get access_Tokens as TOkenResponse
 		HttpResponse tokenHttpResponse = postToTokenEndPoint(tokenEndPointUrl, urlEncodedTokenRequest);
 		
 		ClientTokenResponse clientTokenResponse = handleTokenResponse(request, response, tokenHttpResponse );
 		saveGrantToTable( authParams, redirectRequest, clientTokenResponse);
 		setAttributesAndForwardToClientApp(request, response, authParams.getState() );
+		*/
 	}
 	
 	private void saveGrantToTable( ClientAuthParams authParams, RedirectionRequest redirectionRequest, ClientTokenResponse clientTokenResponse ) {

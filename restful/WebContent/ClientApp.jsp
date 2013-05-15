@@ -27,7 +27,7 @@
 <form name="access_app" action="/restful/clientapp" method="POST">
 <div align="center">
 <br><br>
-<font size="3" face="verdana" color="blue"><b>Click on the Button to access the app<br>This html page has embedded javascript which shall carry the access token along</b></font>
+<font size="3" face="verdana" color="blue"><b>Click on the Button to access the app</b></font>
 <br><br>
 <font size="2" face="verdana" color="black"><b><i>Access_token accessed by this page: </i></b><b><%= request.getAttribute("access_token") %></b></font>
 <br><br><input type="submit" value="Going further"  onclick="doThis()">

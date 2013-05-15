@@ -17,10 +17,20 @@ public class AuthorisationValidator  extends Validator {
 		//error = new AuthorisationError();
 	}
 
-	public AuthorisationError validateAuthorisationRequest() {
+	public AuthorisationError validateAuthorisationGrantRequest() {
 		if (!validateClient())
 			return this.error;
-		if (!validateResponseType())
+		if (!validateAuthorisationGrantResponseType())
+			return this.error;
+		if (!validateRedirectUri())
+			return this.error;
+		return this.error;
+	}
+	
+	public AuthorisationError validateImplicitGrantAuthorisationRequest() {
+		if (!validateClient())
+			return this.error;
+		if (!validateImplicitGrantResponseType())
 			return this.error;
 		if (!validateRedirectUri())
 			return this.error;
@@ -45,11 +55,20 @@ public class AuthorisationValidator  extends Validator {
 			return this.error;
 		}
 
-	private boolean validateResponseType() {
-		return validateResponseTypeCode(params.getResponseType() );
+	private boolean validateAuthorisationGrantResponseType() {
+		boolean  valid = validateResponseTypeCode(params.getResponseType() );
+		System.out.println("Validating Response Type: " + params.getResponseType() + " . Is Valid ? " + valid );
+		return valid;
+	}
+	
+	private boolean validateImplicitGrantResponseType() {
+		boolean  valid = validateResponseTypeToken( params.getResponseType() );
+		System.out.println("Validating Response Type: " + params.getResponseType() + " . Is Valid ? " + valid );
+		return valid;
 	}
 
 	private boolean validateClient() {
+		System.out.println("Validation Client Id: " + params.getClientId() );
 		return validateClientAsRegistered(params.getClientId() );
 	}
 	
@@ -68,7 +87,7 @@ public class AuthorisationValidator  extends Validator {
 		if (!validLogin) {
 			AuthorisationErrorHandler
 					.addInvalidUsernameOrPasswordErrorCode(error);
-			System.out.println("Loign Failure for Temp RequesstId :"
+			System.out.println("Login Failure for Temp RequesstId :"
 					+ tmpRequestId + " , and state: " + this.params.getState()
 					+ " . For Username :" + loginInfo.getUsername()
 					+ " .Enter Test username :" + "nk");

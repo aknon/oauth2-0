@@ -22,6 +22,7 @@ public class AuthorisationErrorHandler {
 		error.setHasError(true);
 		error.setErrorcode( "unsupported_response_type" );
 		error.setErrorMessage("Response Type :" + responseType + " Invalid. Not supported !!" );
+		System.out.println("Adding error: " + error.getErrorcode() + " for response Type: " + responseType);
 	}
 	
 	public static void addInvalidTokenGrantTypeErrorCode( String grantType, AuthorisationError error ) {

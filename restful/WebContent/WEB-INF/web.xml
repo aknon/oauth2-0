@@ -23,6 +23,15 @@ xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j
 </servlet-mapping>
 
 <servlet>
+<servlet-name>implicitauthendpoint</servlet-name>
+<servlet-class>com.goraksh.rest.auth.ImplicitAuthorisation</servlet-class>
+</servlet>
+<servlet-mapping>
+<servlet-name>implicitauthendpoint</servlet-name>
+<url-pattern>/implicitauthendpoint</url-pattern>
+</servlet-mapping>
+
+<servlet>
 <servlet-name>clientregister</servlet-name>
 <servlet-class>com.goraksh.rest.auth.ClientRegistrationServlet</servlet-class>
 </servlet>
@@ -159,6 +168,15 @@ xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j
 <url-pattern>/authenticate</url-pattern>
 </servlet-mapping>
 
+<servlet>
+<servlet-name>implicitauthenticatejsp</servlet-name>
+<jsp-file>/ImplicitAuthenticationJsp.jsp</jsp-file>
+</servlet>
+<servlet-mapping>
+<servlet-name>implicitauthenticatejsp</servlet-name>
+<url-pattern>/implicitauthenticate</url-pattern>
+</servlet-mapping>
+
 
 <servlet>
 <servlet-name>loginfailedjsp</servlet-name>
@@ -179,12 +197,21 @@ xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j
 </servlet-mapping>
 
 <servlet>
-<servlet-name>clientredirectionjsp</servlet-name>
-<jsp-file>/ClientAppRedirect.jsp</jsp-file>
+<servlet-name>clientimplicitredirectionjsp</servlet-name>
+<jsp-file>/ClientAppImplicitRedirect.jsp</jsp-file>
 </servlet>
 <servlet-mapping>
-<servlet-name>clientredirectionjsp</servlet-name>
-<url-pattern>/old_redirect_old</url-pattern>
+<servlet-name>clientimplicitredirectionjsp</servlet-name>
+<url-pattern>/implicitredirect</url-pattern>
+</servlet-mapping>
+
+<servlet>
+<servlet-name>clientauthredirectionjsp</servlet-name>
+<jsp-file>/ClientAppAuthRedirect.jsp</jsp-file>
+</servlet>
+<servlet-mapping>
+<servlet-name>clientauthredirectionjsp</servlet-name>
+<url-pattern>/authredirect</url-pattern>
 </servlet-mapping>
 
 <servlet>
@@ -194,6 +221,15 @@ xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j
 <servlet-mapping>
 <servlet-name>clientappjsp</servlet-name>
 <url-pattern>/clientappview</url-pattern>
+</servlet-mapping>
+
+<servlet>
+<servlet-name>clientappimplicitview</servlet-name>
+<jsp-file>/ClientAppImplicit.jsp</jsp-file>
+</servlet>
+<servlet-mapping>
+<servlet-name>clientappimplicitview</servlet-name>
+<url-pattern>/clientappimplicitview</url-pattern>
 </servlet-mapping>
 
 

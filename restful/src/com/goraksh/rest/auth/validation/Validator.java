@@ -34,6 +34,14 @@ public class Validator {
 		return valid;
 	}
 	
+	protected boolean validateResponseTypeToken(String responseType) {
+		boolean valid = ValidationLib.validateResponseTypeToken(responseType);
+		if (!valid)
+			AuthorisationErrorHandler.addInvalidResponseTypeErrorCode(
+					responseType, this.error);
+		return valid;
+	}
+	
 	protected boolean validateGrantTypeCode(String grantType) {
 		boolean valid = ValidationLib.validateGrantTypeCode(grantType);
 		if (!valid)
