@@ -105,11 +105,13 @@ function set_cookie ( cookie_name, cookie_value,
     var domain_string = (valid_domain != null ) ?
                        ("; domain=" + valid_domain) : '' ;
    coo  = cookie_name +
-                       "=" + encodeURIComponent( cookie_value ) +
+                      // "=" + decodeURIComponent( cookie_value ) +
+                     //"=" + encodeURIComponent( cookie_value ) +
+                       "=" + cookie_value  +
                        "; max-age=" + 60 * 60 *
                        24 * lifespan_in_days +
                        "; path=/" + domain_string ;
-     // alert( coo );                 
+            
      document.cookie = coo;
     // alert( " cookie_value:" + cookie_value );
      //alert( document.cookie );
@@ -134,6 +136,7 @@ if ( index != -1 ) {
 		
 			
 		if (name.trim() == cookie_name ) {
+			//return encodeURIComponent(value);
 			return value;
 		}
 	}
@@ -145,8 +148,24 @@ function get_submit_value() {
 	return ret;
 }
 
+function get_scope() {
+	return get_cookie("scope");
+}
+
+function get_error() {
+	return get_cookie("error");
+}
+
+function get_error_description() {
+	return get_cookie("error_description");
+}
+
 function get_client_id() {
 	return get_cookie("client_id");
+}
+
+function get_expires_in() {
+	return get_cookie("expires_in");
 }
 
 function get_state() {
@@ -158,8 +177,9 @@ function get_access_token() {
 }
 
 
-function store(originalUrl) {			
+function store(originalUrl) {	
 	
+		
 	var urlStr = originalUrl;
   	var host = get_host();		
 
@@ -171,6 +191,11 @@ function store(originalUrl) {
 	if ( urlFragment ) {
 	var fragment = get_fragmentMap(urlFragment);
 	set_cookie("access_token", fragment["access_token"], 1, host);
+	set_cookie("state", fragment["state"], 1, host);
+	set_cookie("expires_in", fragment["expires_in"], 1, host);
+	set_cookie("scope", fragment["scope"], 1, host);
+	set_cookie("error", fragment["error"], 1, host);
+	set_cookie("error_description", fragment["error_description"], 1, host);
 	}		 
 
 	set_cookie("client_id", queryParams["client_id"], 1, host);
@@ -198,6 +223,23 @@ function loadMyApp() {
 	
 }
 
+function loadMyApp_new(host) {
+
+	//var host = "http://" + location.host + "/restful-js/myapp";
+
+	$.ajax({
+		type : "GET",
+		url : host,
+		data : null,
+		dataType : "text",
+		success: function(res) {
+			alert(res);
+			authoriseInNewWindow(res);
+			}
+
+	});
+	
+}
 
 function handleRedirectUrl(urlStr1, win) {
 	if ( win.focus) window.focus();
@@ -214,33 +256,8 @@ function handleRedirectUrl(urlStr1, win) {
 }
 
 function authoriseInNewWindow(authUri) {
+	
 	var dialog = window.open(authUri, 'Authorise', 'height=700, width=550'); // this window on login success will call handleReirectUrl
 	 if (window.focus) dialog.focus();
 }
 
-function postAppUrl(appUrl) {
-
-	var url = "http://" + get_host() + ":8080"+ appUrl;
-	
-	//alert( "url: " + url );
-	$.post( url, 
-			{ "client_id" : get_client_id(), 
-		    "access_token" : get_access_token(),
-		    	"state" : get_state()				  
-			} )
-			.done( function(data) {
-				//alert("success-hi" + data);
-				//$('#toHide').hide();
-				//$('#toReplace').html(data);
-				
-				//var itemtoReplaceContentOf = $('#toHide');
-             // itemtoReplaceContentOf.replaceWith(data);
-
-
-				//document.getElementById('#toHide').innerHtml(data);
-				$('.toHide').hide();
-				$('.toReplace').replaceWith(data);
-			});
-			
-			
-}

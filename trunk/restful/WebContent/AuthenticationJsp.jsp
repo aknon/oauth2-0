@@ -9,7 +9,7 @@
 <meta http-equiv="pragma" content="no-cache">
 
 
-<script src="/restful/scripts/oauth.js" type="text/javascript"></script>
+<script src="${pageContext.request.contextPath}/scripts/oauth.js" type="text/javascript"></script>
 
 <title>Actual Client App</title>
 </head>
@@ -17,7 +17,7 @@
 
 <div align="center">
 <br>
-<img src="/restful/images/authenticate.jpg" alt="Great Work" width="304" height="228">
+<img src="${pageContext.request.contextPath}/images/authenticate.jpg" alt="Great Work" width="304" height="228">
 <br><br>
 <font size="4" face="verdana" color="brown"><b>Authorisation EndPoint on the Authorisation Server</b></font>
 <br><br>
@@ -30,7 +30,7 @@
 <br><br>
 </div>
 
-<form name="authenticate_app" action="/restful/oauthlogin" method="POST" target="_parent">
+<form name="authenticate_app" action="${pageContext.request.contextPath}/oauthlogin" method="POST" target="_parent">
 <div align="center">
 <br>
 <font size="2" face="verdana" color="black"><b>Username/Email: </b></font><input type="text" name="user_name" value="nk" ><br>

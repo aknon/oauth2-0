@@ -1,5 +1,7 @@
 package com.goraksh.rest.clientapp.map;
 
+import com.goraksh.rest.auth.AuthUtil.GrantType;
+
 public class ClientAuthParams {
 	
    private String clientId;
@@ -8,6 +10,7 @@ public class ClientAuthParams {
 	private String scope; // can be null
 	private String responseType;
 	private String clientKey;
+	private GrantType grantType;
 	
 	public ClientAuthParams( String clientId, String responseType, String redirectUri, String scope )  {
 		this(clientId, responseType, redirectUri);
@@ -23,6 +26,18 @@ public class ClientAuthParams {
 		this.clientId = clientId;
 		this.redirectUri = redirectUri;
 		this.responseType = responseType;		
+		
+	}
+	
+	/**
+	 * Grant must not be initialiseds
+	 */
+	private GrantType getGrant() {
+		return this.grantType;			
+	}
+	
+	public void setResponseType( String responseType ) {
+		this.responseType = responseType;
 	}
 	
 		
@@ -74,5 +89,13 @@ public class ClientAuthParams {
 		.append(", responseType: ").append( responseType );
 		return sb.toString();
 	}	
+	
+	public GrantType  grantType() {
+		return getGrant();
+	}
+	
+	public void setGrantType( GrantType type ) {
+		this.grantType = type;
+	}
 	
 }

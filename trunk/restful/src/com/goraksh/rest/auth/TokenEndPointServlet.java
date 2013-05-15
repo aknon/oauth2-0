@@ -65,9 +65,9 @@ public class TokenEndPointServlet extends HttpServlet {
 
 		TokenResponseGenerator generator = new TokenResponseGenerator(
 				tokenRequest, code);
-		TokenResponse tokenResponse = generator.generate();
+		TokenResponse tokenResponse = generator.authorisationGrantTokenResponse();
 
-		TokenTable.getInstance().save(tokenRequest, tokenResponse);
+		TokenTable.getInstance().saveAuthorisationGrantToken(tokenRequest, tokenResponse);
 
 		try {
 			okJsonTokenResponseToClient(request, response, tokenResponse);

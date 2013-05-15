@@ -20,6 +20,7 @@ public class ClientIdTokenControlTable {
 	}
 
 	public void update( String clientId ) {
+		System.out.println("Client Registration. Updating CliendId: " + clientId + " ,with TokenControlParams: tokentype and tokenExpirytime");
 		update0( clientId, defaultControl() );
 	}
 	

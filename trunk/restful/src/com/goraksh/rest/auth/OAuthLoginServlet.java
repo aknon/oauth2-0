@@ -47,7 +47,7 @@ public class OAuthLoginServlet extends HttpServlet {
 
 		boolean userOrientedError = error.hasError() && error.isUserOriented();
 
-		System.out.println( error.hasError() ? ( "Error during login. Is user Oriented Error ? " + userOrientedError + ( userOrientedError ? error.getErrorMessage() +  " .Will resposnd to user-agent" : error.getErrorMessage() + " .Will Redirect this Error to Client") ) : "Login and User authentication successfull. Forwarding to AuthEndPoint for Redirection with a valid code");
+		System.out.println( error.hasError() ? ( "Error during login. Is user Oriented Error ? " + userOrientedError + ( userOrientedError ? error.getErrorMessage() +  " .Will resposnd to user-agent" : error.getErrorMessage() + " .Will Redirect this Error to Client") ) : "Login and User authentication successfull. Will set request attributes and forward it to Auth/ImplcitAUht end points");
 		if (userOrientedError) {
 			handleUserError(request, response, error);
 			return;
@@ -56,7 +56,7 @@ public class OAuthLoginServlet extends HttpServlet {
 		setAttributes(request );
 		updateTmpStore(tmpStore, error);
 		// refreshIssueTime( auth );
-		forwardToAuthEndPoint(request, response);
+		forwardToAuthEndPoint(request, response, auth);
 
 	}
 	
@@ -76,11 +76,20 @@ public class OAuthLoginServlet extends HttpServlet {
 	 * @throws IOException
 	 */
 	private void forwardToAuthEndPoint(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-		// getServletContext().getRequestDispatcher("/authorise").forward(request,
-		// response);
-		getServletContext().getRequestDispatcher("/authendpoint").forward(
-				request, response);
+			HttpServletResponse response, AuthorisationRequest authRequest) throws ServletException, IOException {
+		
+		if  ( authRequest.getResponseType().equals(Constants.AUTHORISATION_GRANT_TYPE) ) {
+		//getServletContext().getRequestDispatcher("/authorise").forward(request,
+		 //response);
+			System.out.println("Response type="+authRequest.getResponseType() + " , OAuthLogin servlet forwarding it to /authendpoint, AuthorissationEndPoint");
+		getServletContext().getRequestDispatcher("/authendpoint").forward(request, response);
+		}
+				
+		else if ( authRequest.getResponseType().equals( Constants.IMPLICIT_GRANT_TYPE ) ) {
+			System.out.println("Response type="+authRequest.getResponseType() + " , OAuthLogin servlet forwarding it to /implicitauthendpoint, ImplicitAuthorissationEndPoint");
+			getServletContext().getRequestDispatcher("/implicitauthendpoint").forward(request, response);
+			
+		}
 	}
 
 	/**

@@ -11,52 +11,16 @@
 <!--  <meta http-equiv="refresh" content="15; URL=home.html"> -->
 
 <title>Hello jsp ! Funny !!</title>
-<script src="/restful/scripts/oauth.js" type="text/javascript"></script>
+<script src="scripts/oauth.js" type="text/javascript"></script>
 </head>
 <body>
 
+<input type="hidden" id="uri" value=""  name="uri"/>
 <script type="text/JavaScript">
-document.write("Funy Jsp ! <br>");
+var redirect_uri = '<%= request.getAttribute("redirect_uri") %>';
+document.getElementById("uri").value = redirect_uri;
+window.opener.handleRedirectUrl(redirect_uri, this);
 
-//var urlStr = "http://restful-fundamentals.blogspot.in/2013/04/oauth-20-authorisation-grant-different.html?client_id=client123&state=clientstate&url=aljghaljg?a=b#access_token=aaga";
-var urlStr = '<%= request.getAttribute("redirect_uri") %>';
-	//var urlStr = window.location.href;
-
-
-document.write(urlStr);
-document.write(location.host);
-
-var host = get_host();
-document.write( "<br> Host :" + host );
-
-var queryStr = get_query(urlStr);
-var queryParams = get_queryMap(queryStr);
-
-
-
-
-var urlFragment = get_urlfragment(urlStr);
-if ( urlFragment ) {
-var fragment = get_fragmentMap(urlFragment);
-set_cookie("access_token", fragment["access_token"], 1, host);
-}
-
-
-
-
-set_cookie("client_id", queryParams["client_id"], 1, host);
-set_cookie("state", queryParams["state"], 1, host);
-
-//document.write( "<br>" + get_cookie("client_id") );
-//document.write( "<br>" + get_cookie("state") );
-//document.write( "<br>" + get_cookie("access_token") );
-
-
-var originalUrl = get_url(urlStr);
-
-document.write("<br>Redirecting to : " + originalUrl);
-
-relocate(originalUrl);
 </script>
 </body>
 </html>

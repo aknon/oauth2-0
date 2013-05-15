@@ -10,6 +10,7 @@ public class TokenResponse {
 	private String refreshToken; //
 	private String scope; //
 	private String error;
+
 	
 	public TokenResponse( String accessToken, String tokenType, long expiresIn ) {
 		this.accessToken = accessToken;
@@ -54,5 +55,5 @@ public class TokenResponse {
 		System.out.println("Converting Token Response class to Json string : " + JsonUtil.toJsonFro(this));
 		return JsonUtil.toJsonFro(this);
 	}
-	
+
 }
