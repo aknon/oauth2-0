@@ -11,6 +11,8 @@
     <property name="web.dir" value="./WebContent"/>
     <property name="webxml.dir" value="${web.dir}/WEB-INF"/>
     <property name="build.classes.dir" value="build/classes"/>
+    <property name="web.applet.dir" value="${web.dir}/applets"/>
+    
     
     
     <property name="target" value="1.7"/>
@@ -50,9 +52,9 @@
         <delete dir="${build.classes.dir}"/>
     </target>
    
-   <target depends="clean" name="cleanall"/>
+   <target  name="cleanall" depends="clean"/>
    
-   <target depends="build-subprojects,build-project" name="build"/>
+   <target name="build" depends="build-subprojects,build-project" />
    
    <target name="build-subprojects"/>
    
@@ -76,6 +78,16 @@
     </lib>
    <classes dir="${build.classes.dir}"/>
 </war>
+</target>
+
+<target name="applet-deploy-jar"  depends="build" >
+<jar destfile="${web.applet.dir}/myapplet.jar/" >
+     basedir="${build.dir}/classes"
+     includes="**/applet/*"
+      <manifest>
+      <attribute name="Main-Class" value="applet.ant.simulation.HelloApplet"/>
+     </manifest>
+</jar>
 </target>
 
 
